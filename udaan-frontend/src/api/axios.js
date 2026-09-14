@@ -18,6 +18,18 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
   (response) => response,
   (error) => {
+    // Enhanced error logging for debugging API mismatches
+    if (error.response) {
+      console.error(
+        `API Error [${error.response.status}] on ${error.config.url}:`,
+        error.response.data
+      );
+    } else if (error.request) {
+      console.error(`API Error on ${error.config?.url}: No response received`, error.request);
+    } else {
+      console.error('API Error:', error.message);
+    }
+
     if (error.response?.status === 401) {
       const errorMsg = error.response?.data?.error || '';
       if (errorMsg.includes('token') || errorMsg.includes('Authorization') || errorMsg.includes('expired')) {

@@ -5,6 +5,7 @@ import { LoginPage } from '../pages/auth/LoginPage';
 import { RegisterPage } from '../pages/auth/RegisterPage';
 import { AccessDeniedPage } from '../pages/auth/AccessDeniedPage';
 import { NotFoundPage } from '../pages/NotFoundPage';
+import { AboutPage } from '../pages/AboutPage';
 import { MainLayout } from '../components/layout/MainLayout';
 export const ProtectedRoute = () => {
   const { user, token } = useAuth();
@@ -52,6 +53,7 @@ export const AppRoutes = () => {
     <Routes>
       {/* Public Routes - allow accessing HomePage and LoginPage freely */}
       <Route path="/" element={<HomePage />} />
+      <Route path="/about" element={<AboutPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/403" element={<AccessDeniedPage />} />

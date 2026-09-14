@@ -98,7 +98,6 @@ export const LoginPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-  // Read the chosen role if selected from the Home page (defaults to applicant)
   const targetRole = location.state?.role && roleDefaults[location.state.role]
     ? location.state.role
     : 'applicant';
