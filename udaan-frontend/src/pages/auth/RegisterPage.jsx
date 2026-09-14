@@ -9,6 +9,8 @@ import { register as registerApi } from '../../api/authApi';
 import { useAuth } from '../../context/AuthContext';
 import { extractApiError } from '../../utils/errors';
 import { Button, Input } from '../../components/common/ui';
+import { GoogleLogin } from '@react-oauth/google';
+import { googleLogin } from '../../api/authApi';
 
 export const RegisterPage = () => {
   const { register, handleSubmit, watch, formState: { errors } } = useForm({
@@ -16,7 +18,37 @@ export const RegisterPage = () => {
   });
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const { login: loginAuth } = useAuth();
+  const { login: loginAuth, logout } = useAuth();
+
+  const handleGoogleSuccess = async (credentialResponse) => {
+    try {
+      setIsLoading(true);
+      logout();
+      const res = await googleLogin({
+        credential: credentialResponse.credential,
+        targetRole: 'applicant',
+      });
+
+      const effectiveRole = res.user.role || 'applicant';
+      const userPayload = {
+        ...res.user,
+        role: effectiveRole,
+        department: res.user.department || null,
+      };
+
+      loginAuth(res.token, userPayload);
+      toast.success('Registration successful with Google!');
+      navigate(`/${effectiveRole}`, { replace: true });
+    } catch (err) {
+      toast.error(extractApiError(err) || 'Google registration failed.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleGoogleError = () => {
+    toast.error('Google registration failed. Please try again.');
+  };
 
   const passwordValue = watch('password') || '';
   const checks = {
@@ -165,6 +197,28 @@ export const RegisterPage = () => {
             Register
           </Button>
         </form>
+
+        <div className="relative my-5">
+          <div className="absolute inset-0 flex items-center">
+            <div className="w-full border-t border-slate-200" />
+          </div>
+          <div className="relative flex justify-center text-xs uppercase">
+            <span className="bg-white px-3 text-slate-400 font-medium">
+              Or register with
+            </span>
+          </div>
+        </div>
+
+        <div className="flex flex-col items-center gap-2.5">
+          <GoogleLogin
+            onSuccess={handleGoogleSuccess}
+            onError={handleGoogleError}
+            useOneTap
+            theme="outline"
+            size="large"
+            width="100%"
+          />
+        </div>
 
         <div className="mt-6 text-center text-sm text-slate-600">
           Already have an account?{' '}

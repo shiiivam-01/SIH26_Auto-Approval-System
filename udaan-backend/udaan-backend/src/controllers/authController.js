@@ -239,8 +239,17 @@ async function googleOAuthLogin(req, res) {
     const chosenName = (directName && directName.trim()) ? directName.trim() : (name || normalizedEmail.split('@')[0]);
 
     if (!user) {
-      // NO AUTO-REGISTRATION: User must register first via the Register page
-      return res.status(401).json({ error: 'Account not found. Please register first before signing in.' });
+      // Auto-register new users via Google OAuth
+      const randomPassword = require('crypto').randomBytes(16).toString('hex') + 'A1!'; // Secure random password meeting requirements
+      const password_hash = await bcrypt.hash(randomPassword, 12);
+      
+      user = await User.create({
+        name: chosenName,
+        email: normalizedEmail,
+        password_hash,
+        role: 'applicant', // Default role for new signups
+        department: null,
+      });
     }
 
     // VERIFY PASSWORD: Existing user must provide correct password
