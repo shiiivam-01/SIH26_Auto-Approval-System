@@ -12,6 +12,7 @@ import { useAuth } from '../../context/AuthContext';
 import { extractApiError } from '../../utils/errors';
 import { Button, Input } from '../../components/common/ui';
 import { ThemeToggle } from '../../components/common/ThemeToggle';
+import { GoogleLogin } from '@react-oauth/google';
 
 // --- Stored accounts utility (localStorage) ---
 const ACCOUNTS_KEY = 'udaan_google_accounts';
@@ -137,63 +138,12 @@ export const LoginPage = () => {
     }
   };
 
-  // --- Google OAuth simulation ---
-  const [googleOpen, setGoogleOpen] = useState(false);
-  const [googleStep, setGoogleStep] = useState('choose'); // 'choose' | 'email' | 'password'
-  const [googleEmail, setGoogleEmail] = useState('');
-  const [googlePassword, setGooglePassword] = useState('');
-  const [googleError, setGoogleError] = useState('');
-  const [showGooglePwd, setShowGooglePwd] = useState(false);
-  const [savedAccounts, setSavedAccounts] = useState([]);
-
-  const openGooglePopup = () => {
-    setSavedAccounts(getSavedAccounts());
-    setGoogleStep('choose');
-    setGoogleEmail('');
-    setGooglePassword('');
-    setGoogleError('');
-    setShowGooglePwd(false);
-    setGoogleOpen(true);
-  };
-
-  const handleAccountClick = (account) => {
-    setGoogleEmail(account.email);
-    setGooglePassword('');
-    setGoogleError('');
-    setGoogleStep('password');
-  };
-
-  const handleUseAnother = () => {
-    setGoogleEmail('');
-    setGooglePassword('');
-    setGoogleError('');
-    setGoogleStep('email');
-  };
-
-  const handleEmailNext = (e) => {
-    e.preventDefault();
-    if (!googleEmail.trim() || !googleEmail.includes('@')) {
-      setGoogleError('Enter a valid email address');
-      return;
-    }
-    setGoogleError('');
-    setGoogleStep('password');
-  };
-
-  const handlePasswordSubmit = async (e) => {
-    e.preventDefault();
-    if (!googlePassword.trim()) {
-      setGoogleError('Enter your password');
-      return;
-    }
-    setGoogleError('');
+  const handleGoogleSuccess = async (credentialResponse) => {
     try {
       setIsLoading(true);
       logout();
       const res = await googleLogin({
-        email: googleEmail.trim(),
-        password: googlePassword.trim(),
-        name: googleEmail.split('@')[0],
+        credential: credentialResponse.credential,
         targetRole,
       });
 
@@ -204,17 +154,18 @@ export const LoginPage = () => {
         department: res.user.department || null,
       };
 
-      saveAccount(res.user.email, res.user.name);
-
       loginAuth(res.token, userPayload);
-      setGoogleOpen(false);
       toast.success(`Welcome! Logged in as ${effectiveRole.toUpperCase()}`);
       navigate(`/${effectiveRole}`, { replace: true });
     } catch (err) {
-      setGoogleError(extractApiError(err) || 'Authentication failed. Check your credentials.');
+      toast.error(extractApiError(err) || 'Google authentication failed.');
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleGoogleError = () => {
+    toast.error('Google authentication failed. Please try again.');
   };
 
   return (
@@ -309,15 +260,14 @@ export const LoginPage = () => {
 
         {/* Google OAuth Button */}
         <div className="flex flex-col items-center gap-2.5">
-          <button
-            type="button"
-            onClick={openGooglePopup}
-            disabled={isLoading}
-            className="w-full flex items-center justify-center gap-3 px-4 py-2.5 border border-slate-200 dark:border-slate-700 rounded-xl font-semibold text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all shadow-xs cursor-pointer active:scale-[0.99]"
-          >
-            <GoogleLogo className="w-5 h-5" />
-            <span>Sign in with Google</span>
-          </button>
+          <GoogleLogin
+            onSuccess={handleGoogleSuccess}
+            onError={handleGoogleError}
+            useOneTap
+            theme="outline"
+            size="large"
+            width="100%"
+          />
         </div>
 
         <div className="mt-6 text-center text-xs text-slate-500 dark:text-slate-400">
@@ -328,220 +278,6 @@ export const LoginPage = () => {
         </div>
       </div>
 
-      {/* ==================== GOOGLE OAUTH POPUP SIMULATION ==================== */}
-      {googleOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          {/* Backdrop */}
-          <div
-            className="absolute inset-0 bg-black/50 backdrop-blur-[2px] animate-[fadeIn_150ms_ease-out]"
-            onClick={() => !isLoading && setGoogleOpen(false)}
-          />
-
-          {/* Google popup card */}
-          <div className="relative z-10 w-full max-w-[420px] bg-white rounded-2xl shadow-2xl overflow-hidden animate-[scaleIn_200ms_ease-out]"
-            style={{ fontFamily: "'Google Sans', 'Roboto', 'Arial', sans-serif" }}
-          >
-            {/* Google header bar */}
-            <div className="px-8 pt-8 pb-2">
-              <GoogleLogo className="w-7 h-7 mb-5" />
-
-              {/* ---- STEP: Choose an account ---- */}
-              {googleStep === 'choose' && (
-                <>
-                  <h1 className="text-[22px] font-normal text-[#202124] tracking-[-0.01em]">Choose an account</h1>
-                  <p className="text-sm text-[#5f6368] mt-1 mb-1">
-                    to continue to <strong className="text-[#202124] font-medium">UDAAN</strong>
-                  </p>
-                </>
-              )}
-
-              {/* ---- STEP: Enter email ---- */}
-              {googleStep === 'email' && (
-                <>
-                  <h1 className="text-[22px] font-normal text-[#202124] tracking-[-0.01em]">Sign in</h1>
-                  <p className="text-sm text-[#5f6368] mt-1">
-                    to continue to <strong className="text-[#202124] font-medium">UDAAN</strong>
-                  </p>
-                </>
-              )}
-
-              {/* ---- STEP: Enter password ---- */}
-              {googleStep === 'password' && (
-                <>
-                  <h1 className="text-[22px] font-normal text-[#202124] tracking-[-0.01em]">Welcome</h1>
-                  <div className="flex items-center gap-2 mt-3 mb-1 px-3 py-1.5 border border-[#dadce0] rounded-full w-fit cursor-pointer hover:bg-[#f1f3f4] transition-colors"
-                    onClick={() => setGoogleStep('email')}
-                  >
-                    <AvatarCircle name={googleEmail} />
-                    <span className="text-sm text-[#3c4043] font-medium pr-1">{googleEmail}</span>
-                    <svg className="w-4 h-4 text-[#5f6368]" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M7 10l5 5 5-5H7z" />
-                    </svg>
-                  </div>
-                </>
-              )}
-            </div>
-
-            {/* Error */}
-            {googleError && (
-              <div className="mx-8 mt-2 text-sm text-red-600 flex items-start gap-2">
-                <svg className="w-5 h-5 shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-2h2v2h-2zm0-4V7h2v6h-2z" />
-                </svg>
-                <span>{googleError}</span>
-              </div>
-            )}
-
-            {/* Content area */}
-            <div className="px-0 pt-2 pb-2">
-
-              {/* ---- STEP: Account list ---- */}
-              {googleStep === 'choose' && (
-                <div className="border-t border-b border-[#e8eaed] my-3">
-                  {savedAccounts.map((account, i) => (
-                    <button
-                      key={account.email}
-                      type="button"
-                      onClick={() => handleAccountClick(account)}
-                      className="w-full flex items-center gap-4 px-8 py-3 hover:bg-[#f7f8f8] transition-colors text-left cursor-pointer"
-                    >
-                      <AvatarCircle name={account.name} />
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-[#202124] truncate">{account.name}</p>
-                        <p className="text-xs text-[#5f6368] truncate">{account.email}</p>
-                      </div>
-                    </button>
-                  ))}
-
-                  {/* Use another account */}
-                  <button
-                    type="button"
-                    onClick={handleUseAnother}
-                    className="w-full flex items-center gap-4 px-8 py-3 hover:bg-[#f7f8f8] transition-colors text-left cursor-pointer"
-                  >
-                    <div className="w-10 h-10 rounded-full border-2 border-[#dadce0] flex items-center justify-center text-[#5f6368]">
-                      <UserPlus className="w-5 h-5" />
-                    </div>
-                    <p className="text-sm font-medium text-[#202124]">Use another account</p>
-                  </button>
-                </div>
-              )}
-
-              {/* ---- STEP: Email input ---- */}
-              {googleStep === 'email' && (
-                <form onSubmit={handleEmailNext} className="px-8 pt-4 pb-2">
-                  <div className="mb-6">
-                    <div className="relative">
-                      <input
-                        type="email"
-                        autoFocus
-                        value={googleEmail}
-                        onChange={(e) => { setGoogleEmail(e.target.value); setGoogleError(''); }}
-                        placeholder=" "
-                        className="peer w-full px-4 pt-5 pb-2 text-[15px] text-[#202124] border border-[#dadce0] rounded-[4px] focus:outline-none focus:border-[#1a73e8] focus:border-2 focus:ring-0 transition-colors bg-white"
-                      />
-                      <label className="absolute left-4 top-1/2 -translate-y-1/2 text-sm text-[#5f6368] pointer-events-none transition-all duration-150 peer-focus:top-2 peer-focus:text-xs peer-focus:text-[#1a73e8] peer-[:not(:placeholder-shown)]:top-2 peer-[:not(:placeholder-shown)]:text-xs">
-                        Email or phone
-                      </label>
-                    </div>
-                  </div>
-
-                  <p className="text-sm text-[#5f6368] mb-6 leading-relaxed">
-                    Not your computer? Use Guest mode to sign in privately.{' '}
-                    <a href="#" className="text-[#1a73e8] font-medium hover:underline" onClick={e => e.preventDefault()}>Learn more about using Guest mode</a>
-                  </p>
-
-                  <div className="flex items-center justify-between">
-                    <button
-                      type="button"
-                      onClick={() => { setGoogleStep('choose'); setGoogleError(''); }}
-                      className="text-sm font-medium text-[#1a73e8] hover:bg-[#f0f4ff] px-4 py-2 rounded-[4px] transition-colors cursor-pointer"
-                    >
-                      Back
-                    </button>
-                    <button
-                      type="submit"
-                      className="bg-[#1a73e8] hover:bg-[#1765cc] text-white font-medium text-sm px-6 py-2.5 rounded-[4px] transition-colors cursor-pointer"
-                    >
-                      Next
-                    </button>
-                  </div>
-                </form>
-              )}
-
-              {/* ---- STEP: Password input ---- */}
-              {googleStep === 'password' && (
-                <form onSubmit={handlePasswordSubmit} className="px-8 pt-4 pb-2">
-                  <div className="mb-4">
-                    <div className="relative">
-                      <input
-                        type={showGooglePwd ? 'text' : 'password'}
-                        autoFocus
-                        value={googlePassword}
-                        onChange={(e) => { setGooglePassword(e.target.value); setGoogleError(''); }}
-                        placeholder=" "
-                        className="peer w-full px-4 pt-5 pb-2 text-[15px] text-[#202124] border border-[#dadce0] rounded-[4px] focus:outline-none focus:border-[#1a73e8] focus:border-2 focus:ring-0 transition-colors bg-white"
-                      />
-                      <label className="absolute left-4 top-1/2 -translate-y-1/2 text-sm text-[#5f6368] pointer-events-none transition-all duration-150 peer-focus:top-2 peer-focus:text-xs peer-focus:text-[#1a73e8] peer-[:not(:placeholder-shown)]:top-2 peer-[:not(:placeholder-shown)]:text-xs">
-                        Enter your password
-                      </label>
-                    </div>
-                  </div>
-
-                  <label className="flex items-center gap-2 text-sm text-[#202124] mb-6 cursor-pointer select-none">
-                    <input
-                      type="checkbox"
-                      checked={showGooglePwd}
-                      onChange={() => setShowGooglePwd(!showGooglePwd)}
-                      className="w-[18px] h-[18px] accent-[#1a73e8] cursor-pointer"
-                    />
-                    Show password
-                  </label>
-
-                  <div className="flex items-center justify-between">
-                    <button
-                      type="button"
-                      onClick={() => { setGoogleStep('email'); setGoogleError(''); setGooglePassword(''); }}
-                      className="text-sm font-medium text-[#1a73e8] hover:bg-[#f0f4ff] px-4 py-2 rounded-[4px] transition-colors cursor-pointer"
-                    >
-                      Back
-                    </button>
-                    <button
-                      type="submit"
-                      disabled={isLoading}
-                      className="bg-[#1a73e8] hover:bg-[#1765cc] disabled:opacity-60 text-white font-medium text-sm px-6 py-2.5 rounded-[4px] transition-colors cursor-pointer flex items-center gap-2"
-                    >
-                      {isLoading && (
-                        <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24">
-                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-                        </svg>
-                      )}
-                      Next
-                    </button>
-                  </div>
-                </form>
-              )}
-            </div>
-
-            {/* Footer */}
-            <div className="px-8 py-4 flex items-center justify-between text-xs text-[#5f6368] border-t border-[#e8eaed]">
-              <span>English (United States)</span>
-              <div className="flex items-center gap-4">
-                <span className="hover:text-[#202124] cursor-pointer">Help</span>
-                <span className="hover:text-[#202124] cursor-pointer">Privacy</span>
-                <span className="hover:text-[#202124] cursor-pointer">Terms</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Animations */}
-      <style>{`
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes scaleIn { from { opacity: 0; transform: scale(0.95) translateY(10px); } to { opacity: 1; transform: scale(1) translateY(0); } }
-      `}</style>
     </div>
   );
 };
