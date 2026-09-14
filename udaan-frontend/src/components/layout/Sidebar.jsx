@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import {
   LayoutDashboard, X, CheckSquare, UploadCloud,
   ShieldCheck, ClipboardCheck, BarChart3, MessageSquareWarning, Bell, Settings, User,
@@ -63,7 +63,7 @@ export const Sidebar = ({ isOpen, onClose }) => {
       >
         {/* UDAAN branding — top */}
         <div className="flex items-center justify-between px-5 py-4 border-b border-white/10">
-          <div className="flex items-center gap-2.5">
+          <Link to="/" className="flex items-center gap-2.5 hover:opacity-90 transition-opacity">
             <div className="w-9 h-9 rounded-lg bg-white/15 flex items-center justify-center overflow-hidden shrink-0 shadow-xs">
               <img
                 src={logo}
@@ -74,7 +74,7 @@ export const Sidebar = ({ isOpen, onClose }) => {
             <span className="text-white font-extrabold text-2xl tracking-widest leading-none">
               UDAAN
             </span>
-          </div>
+          </Link>
           <button
             onClick={onClose}
             aria-label="Close navigation"

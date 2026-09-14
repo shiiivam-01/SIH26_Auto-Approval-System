@@ -48,7 +48,7 @@ export const Header = ({ onMenuClick }) => {
   const handleLogout = () => {
     setIsMenuOpen(false);
     logout();
-    navigate('/login');
+    navigate('/');
   };
 
   const handleEditProfile = () => {

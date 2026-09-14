@@ -62,21 +62,15 @@ export const RegisterPage = () => {
   const strengthColor = passedCount <= 2 ? 'bg-red-500' : passedCount <= 4 ? 'bg-amber-500' : 'bg-emerald-500';
   const strengthLabel = passedCount <= 2 ? 'Weak' : passedCount <= 4 ? 'Moderate' : 'Strong';
 
-  const roleValue = watch('role') || 'applicant';
-
   const onSubmit = async (data) => {
     try {
       setIsLoading(true);
-      const res = await registerApi(data);
-      // For prototype: mock the role and department since backend forces applicant
-      if (data.role === 'officer' || data.role === 'inspector') {
-        res.user.role = data.role;
-        res.user.department = data.department;
-      }
+      const payload = { ...data, role: 'applicant', department: null };
+      const res = await registerApi(payload);
       
       loginAuth(res.token, res.user);
       toast.success('Registration successful');
-      navigate(`/${res.user.role}`);
+      navigate('/applicant');
     } catch (error) {
       toast.error(extractApiError(error) || 'Registration failed. Please check your details.');
     } finally {
@@ -117,35 +111,6 @@ export const RegisterPage = () => {
             error={errors.date_of_birth?.message}
             {...register('date_of_birth')}
           />
-          
-          <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1.5">Role</label>
-            <select
-              {...register('role')}
-              className="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-            >
-              <option value="applicant">Applicant (Business Owner)</option>
-              <option value="officer">Department Officer</option>
-              <option value="inspector">Field Inspector</option>
-            </select>
-            {errors.role?.message && <p className="mt-1.5 text-sm text-red-600">{errors.role.message}</p>}
-          </div>
-
-          {(roleValue === 'officer' || roleValue === 'inspector') && (
-            <div className="animate-fade-in">
-              <label className="block text-sm font-medium text-slate-700 mb-1.5">Department</label>
-              <select
-                {...register('department')}
-                className="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-              >
-                <option value="">Select your department...</option>
-                <option value="Food Safety and Standards Authority of India (FSSAI)">Food Safety and Standards Authority of India (FSSAI)</option>
-                <option value="State FDA & Central Drugs Standard Control Organisation (CDSCO)">State FDA & Central Drugs Standard Control Organisation (CDSCO)</option>
-                <option value="Urban Administration & Municipal Corporation">Urban Administration & Municipal Corporation</option>
-              </select>
-              {errors.department?.message && <p className="mt-1.5 text-sm text-red-600">{errors.department.message}</p>}
-            </div>
-          )}
           <div>
             <Input
               label="Password"
