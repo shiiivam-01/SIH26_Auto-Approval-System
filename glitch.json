@@ -1,0 +1,9 @@
+{
+  "install": "cd udaan-backend/udaan-backend && npm install",
+  "start": "cd udaan-backend/udaan-backend && npm start",
+  "watch": {
+    "restart": {
+      "include": ["udaan-backend/"]
+    }
+  }
+}
