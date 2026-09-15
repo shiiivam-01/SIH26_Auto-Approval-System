@@ -42,7 +42,7 @@ async function handleChatQuery(req, res) {
 
   } catch (error) {
     console.error('Groq Chat Error:', error);
-    res.status(500).json({ error: 'Failed to generate response' });
+    res.status(500).json({ error: `Groq API Error: ${error.message}` });
   }
 }
 
