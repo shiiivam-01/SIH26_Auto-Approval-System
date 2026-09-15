@@ -31,7 +31,7 @@ async function handleChatQuery(req, res) {
 
     const chatCompletion = await groq.chat.completions.create({
       messages: apiMessages,
-      model: 'llama-3.1-8b-instant',
+      model: 'mixtral-8x7b-32768',
       temperature: 0.3,
       max_tokens: 500,
     });
