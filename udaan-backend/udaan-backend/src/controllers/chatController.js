@@ -1,9 +1,5 @@
 const Groq = require('groq-sdk');
 
-const groq = new Groq({
-  apiKey: process.env.GROQ_API_KEY
-});
-
 const SYSTEM_PROMPT = `You are UDAAN Sahayak, an AI Single Window Assistant for the state government.
 Your job is to assist business owners and entrepreneurs with setting up their businesses, understanding statutory approvals (like Fire NOC, FSSAI, Pollution Board CTE/CTO, Factory Licenses), and navigating government schemes.
 Keep your answers very short, highly relevant, and professional. Use formatting (bullet points, bold text) for readability.
@@ -20,6 +16,10 @@ async function handleChatQuery(req, res) {
     if (!process.env.GROQ_API_KEY) {
        return res.status(500).json({ error: 'Groq API Key is not configured on the server' });
     }
+
+    const groq = new Groq({
+      apiKey: process.env.GROQ_API_KEY
+    });
 
     const apiMessages = [
       { role: 'system', content: SYSTEM_PROMPT },
