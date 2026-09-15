@@ -5,6 +5,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { sendChatQuery } from '../../api/chatApi';
 
 const QUICK_PROMPTS = [
   'Direct document list link for Food Manufacturing?',
@@ -163,12 +164,10 @@ export const ApplicantChatbot = ({ applicantName = 'Entrepreneur' }) => {
       };
     }
 
-    return {
-      text: 'I can help you with:\n• Document requirements & vault uploads\n• Clearances (Fire NOC, PCB, FSSAI, Factory)\n• Application progress & statutory SLA deadlines\n• Subsidy schemes (PMEGP, MP Subsidies)\n• Data security & privacy protocols\n\nWhat would you like to explore?',
-    };
+    return null; // Signals that we should use the AI fallback
   };
 
-  const handleSendMessage = (textToSend) => {
+  const handleSendMessage = async (textToSend) => {
     const query = (textToSend || inputQuery).trim();
     if (!query) return;
 
@@ -179,24 +178,49 @@ export const ApplicantChatbot = ({ applicantName = 'Entrepreneur' }) => {
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     };
 
-    setMessages((prev) => [...prev, userMsg]);
+    const newMessages = [...messages, userMsg];
+    setMessages(newMessages);
     setInputQuery('');
     setIsTyping(true);
 
-    // Simulate fast realistic AI response
-    setTimeout(() => {
-      const ans = generateAnswer(query);
-      const botMsg = {
-        id: (Date.now() + 1).toString(),
-        sender: 'bot',
-        text: ans.text,
-        action: ans.action,
-        links: ans.links,
-        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-      };
-      setMessages((prev) => [...prev, botMsg]);
-      setIsTyping(false);
-    }, 600);
+    const ans = generateAnswer(query);
+
+    if (ans) {
+      // Simulate fast realistic AI response for hardcoded answers
+      setTimeout(() => {
+        const botMsg = {
+          id: (Date.now() + 1).toString(),
+          sender: 'bot',
+          text: ans.text,
+          action: ans.action,
+          links: ans.links,
+          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        };
+        setMessages((prev) => [...prev, botMsg]);
+        setIsTyping(false);
+      }, 600);
+    } else {
+      // Fallback to Groq AI
+      try {
+        const aiResponse = await sendChatQuery(newMessages);
+        const botMsg = {
+          id: (Date.now() + 1).toString(),
+          sender: 'bot',
+          text: aiResponse.text,
+          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        };
+        setMessages((prev) => [...prev, botMsg]);
+      } catch (err) {
+        setMessages((prev) => [...prev, {
+          id: (Date.now() + 1).toString(),
+          sender: 'bot',
+          text: 'I am experiencing a temporary network issue. Please try again.',
+          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        }]);
+      } finally {
+        setIsTyping(false);
+      }
+    }
   };
 
   const handleResetChat = () => {
@@ -355,7 +379,9 @@ export const ApplicantChatbot = ({ applicantName = 'Entrepreneur' }) => {
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              handleSendMessage();
+              if (inputQuery.trim()) {
+                handleSendMessage();
+              }
             }}
             className="p-2.5 bg-white dark:bg-slate-900 border-t border-slate-200/70 dark:border-slate-800 flex items-center gap-2"
           >
