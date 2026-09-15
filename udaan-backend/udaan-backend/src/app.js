@@ -27,7 +27,7 @@ app.use('/api/applications', applicationRoutes);
 app.use('/api/schemes', schemeRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/inspections', inspectionRoutes);
-app.use('/api/grievances', grievanceRoutes);
+app.use('/api/grievances', require('./routes/grievanceRoutes'));
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/chat', chatRoutes);
 

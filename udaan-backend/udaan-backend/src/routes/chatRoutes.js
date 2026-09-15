@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const { handleChatQuery } = require('../controllers/chatController');
-const { requireAuth } = require('../middleware/auth');
+const { authenticate } = require('../middleware/auth');
 
-router.post('/', requireAuth, handleChatQuery);
+router.post('/', authenticate, handleChatQuery);
 
 module.exports = router;
