@@ -39,134 +39,6 @@ export const ApplicantChatbot = ({ applicantName = 'Entrepreneur' }) => {
     }
   }, [messages, isTyping, isOpen]);
 
-  const generateAnswer = (query) => {
-    const q = query.toLowerCase();
-
-    if (q.includes('cafe') || q.includes('hotel') || q.includes('restaurant') || q.includes('bakery')) {
-      return {
-        text: 'Direct Statutory Document Checklist for Cafe / Hotel / Restaurant:\n\n• Proof of Possession of Commercial Premises (Rental Deed / Ownership)\n• Layout Plan of the kitchen, dining, food preparation, and waste storage areas\n• Water Testing Report from NABL / FSSAI accredited lab (as per IS:10500)\n• Medical Fitness Certificates & Food Handler Typhoid / Deworming records\n• Food Safety Management System (FSMS) plan\n• Municipal Trade License / Gumasta Registration\n• Fire Safety NOC (for seating capacity > 50 guests)\n\n👉 Click the direct link below to open the official FSSAI FoSCoS Food Services Document List PDF:',
-        action: { label: 'Go to Document Section', path: '/applicant/documents' },
-        links: [
-          { label: 'FSSAI Food Services Document List (Direct PDF) ↗', url: 'https://foscos.fssai.gov.in/assets/docs/KindofBusinessFoodServices.pdf' },
-          { label: 'FoSCoS Official Portal ↗', url: 'https://foscos.fssai.gov.in/' },
-        ],
-      };
-    }
-
-    if (q.includes('pharmacy') || q.includes('chemist') || q.includes('medical store') || q.includes('drug license')) {
-      return {
-        text: 'Direct Statutory Document Checklist for Pharmacy & Medical Store (Retail / Wholesale):\n\n• Form 19 / 19A Application for Grant of Retail Drug License (Forms 20 & 21)\n• Registered Pharmacist Degree / Diploma & State Pharmacy Council Registration Certificate\n• Pharmacist Appointment Letter and Acceptance Affidavit\n• Commercial Premises Rent Agreement (>10 sq. meters for retail, >15 sq. meters for retail+wholesale)\n• Refrigerator / Deep Freeze Invoice & Temperature Monitoring Log Book\n• Blueprint & Layout Plan of the pharmacy premises with rack layout\n\n👉 Access the official State FDA and CDSCO Drug Sale Portal below:',
-        action: { label: 'Go to Document Section', path: '/applicant/documents' },
-        links: [
-          { label: 'CDSCO Drug Retail Guidelines ↗', url: 'https://cdsco.gov.in/opencms/opencms/en/Drugs/Retail-Sale/' },
-          { label: 'State FDA Drug Licensing ↗', url: 'https://cdsco.gov.in/' },
-        ],
-      };
-    }
-
-    if (q.includes('gym') || q.includes('fitness') || q.includes('health club')) {
-      return {
-        text: 'Direct Statutory Document Checklist for Gym & Fitness Center:\n\n• Commercial Property Lease Deed or Municipal Tax Receipt\n• Municipal Corporation Health & Trade License (Gumasta Act)\n• Certified Fitness Equipment Safety, Stability & Ground Load Certificate\n• Certified Trainers Bio-data, CPR & First Aid Certification copies\n• Fire Safety Provisional NOC & Emergency Exit Schematic\n• High-Tension Electrical Sanction & Earthing Certificate for commercial fitness equipment\n• Mandatory First Aid Kit & Emergency Evacuation Protocol\n\n👉 Access the official Single Window Guidelines for Fitness Centers below:',
-        action: { label: 'Go to Document Section', path: '/applicant/documents' },
-        links: [
-          { label: 'Single Window Fitness Compliance Directory ↗', url: 'https://eodb.mp.gov.in/' },
-          { label: 'MP Urban Municipal Guidelines ↗', url: 'https://www.mpenagarpalika.gov.in/' },
-        ],
-      };
-    }
-
-    if (q.includes('direct') && (q.includes('link') || q.includes('document') || q.includes('list'))) {
-      return {
-        text: 'Direct Official Government Statutory Document Lists:\n\n• **Cafe / Hotel / Restaurant**:\nFSSAI FoSCoS Food Services Mandatory Checklist (Direct PDF)\n\n• **Pharmacy & Medical Store**:\nState FDA & CDSCO Drug Retail Sale Checklist\n\n• **Gym & Fitness Center**:\nMunicipal Corporation & Labour Fitness Centre Guidelines\n\n• **Food Manufacturing / Processing**:\nOfficial FSSAI FoSCoS Manufacturing Document List (Direct PDF)\n\n• **General Factory / Manufacturing**:\nMP DIHS Factories Act Layout & Approval Guidelines\n\nClick any direct link below to open the official statutory list:',
-        action: { label: 'Go to Document Section', path: '/applicant/documents' },
-        links: [
-          { label: 'Cafe/Hotel Food Services List (PDF) ↗', url: 'https://foscos.fssai.gov.in/assets/docs/KindofBusinessFoodServices.pdf' },
-          { label: 'Pharmacy Drug Retail Guidelines ↗', url: 'https://cdsco.gov.in/opencms/opencms/en/Drugs/Retail-Sale/' },
-          { label: 'Gym Compliance Guidelines ↗', url: 'https://eodb.mp.gov.in/' },
-          { label: 'Food Mfg Document List (PDF) ↗', url: 'https://foscos.fssai.gov.in/assets/docs/KindofBusinessDocumentList.pdf' },
-          { label: 'Manufacturing Factories Act ↗', url: 'https://labour.mp.gov.in/' },
-        ],
-      };
-    }
-
-    if (q.includes('food') || q.includes('fssai')) {
-      return {
-        text: 'Direct Statutory Document List for Food Manufacturing & Processing:\n\n• Form-B Signed Application & Plant Blueprint\n• Machine List with connected HP & processing capacity (MT/day)\n• Water Potability Report (IS:10500 certified)\n• Food Safety Management Plan (FSMS) / ISO 22000\n• Raw material source & food recall plan\n• MPPCB Environmental Consent to Establish (CTE)\n\n👉 Click the direct link below to open the official FSSAI Kind of Business Document List PDF:',
-        action: { label: 'Go to Document Section', path: '/applicant/documents' },
-        links: [
-          { label: 'Direct FSSAI Document List (PDF) ↗', url: 'https://foscos.fssai.gov.in/assets/docs/KindofBusinessDocumentList.pdf' },
-          { label: 'FoSCoS Central Portal ↗', url: 'https://foscos.fssai.gov.in/' },
-        ],
-      };
-    }
-
-    if (q.includes('govt') || q.includes('portal') || q.includes('official') || q.includes('which document') || q.includes('required document') || q.includes('checklist')) {
-      return {
-        text: 'Official Government Document Guidelines & Portal Links:\n\n• **Universal Clearances**: Incorporation, DPR, Land Deed.\n• **Fire Safety NOC**: Building plan, hydrant layout, structural stability.\n• **MPPCB Pollution**: ETP/STP design, stack height, process chart.\n• **FSSAI Food License**: Form-B, water test IS:10500, FSMS plan.\n• **Factory License**: Machine layout, Form-1, MSDS.\n• **Udyam**: Enterprise PAN, Aadhaar, Bank IFSC.\n\nClick any official government portal link below to inspect the statutory checklist directly on the department site:',
-        action: { label: 'Explore Document Vault Directory', path: '/applicant/documents' },
-        links: [
-          { label: 'NSWS Central Portal', url: 'https://www.nsws.gov.in/know-your-approvals' },
-          { label: 'MP Fire Services', url: 'https://www.mpenagarpalika.gov.in/' },
-          { label: 'MPPCB Pollution Board', url: 'https://mppcb.mp.gov.in/' },
-          { label: 'FSSAI FoSCoS', url: 'https://foscos.fssai.gov.in/' },
-          { label: 'MP Labour Welfare', url: 'https://labour.mp.gov.in/' },
-          { label: 'Udyam Portal', url: 'https://udyamregistration.gov.in/' },
-        ],
-      };
-    }
-
-    if (q.includes('fire noc') || q.includes('fire') || q.includes('fire safety')) {
-      return {
-        text: 'Fire Safety NOC is a statutory clearance issued by the Fire Department. Under UDAAN Single Window:\n\n• **Statutory SLA**: 15 Working Days.\n• **Required Documents**: Approved building layout, site safety plan, water hydrant map, and certified structural stability.\n• **Inspection**: On-site joint physical verification by the designated Inspector.',
-        action: { label: 'View My Applications', path: '/applicant/applications' }
-      };
-    }
-
-    if (q.includes('food') || q.includes('fssai') || q.includes('document')) {
-      return {
-        text: 'For Food Processing enterprises in Madhya Pradesh, the standard approvals checklist includes:\n\n1. **FSSAI Manufacturing License** (Food Safety & Standards)\n2. **Consent to Establish (CTE)** from MP Pollution Control Board\n3. **Fire Safety Provisional NOC**\n4. **Factory Directorate Registration** (if >10 workers with power)\n\nAll documents uploaded to your Document Vault are encrypted with AES-256-GCM.',
-        action: { label: 'Go to Document Vault', path: '/applicant/documents' }
-      };
-    }
-
-    if (q.includes('scheme') || q.includes('subsidy') || q.includes('loan') || q.includes('pmegp') || q.includes('fund')) {
-      return {
-        text: 'Top government schemes matched for enterprises:\n\n• **PMEGP (Prime Minister Employment Generation)**: Up to 35% capital subsidy for manufacturing units.\n• **MP Development Scheme**: 40% capital investment subsidy up to ₹2.5 Crores + 5% interest subvention for 5 years.\n• **Mudra Scheme (Tarun Category)**: Collateral-free working capital loan up to ₹10 Lakhs.',
-        action: { label: 'Explore Matched Schemes', path: '/applicant/schemes' }
-      };
-    }
-
-    if (q.includes('security') || q.includes('crypto') || q.includes('privacy') || q.includes('safe') || q.includes('password') || q.includes('mask')) {
-      return {
-        text: 'UDAAN follows rigorous cybersecurity and statutory compliance standards:\n\n• **End-to-End Cryptography**: Uploaded vault certificates are encrypted at rest with AES-256-GCM.\n• **Identity Privacy**: Phone numbers (+91 XXXXXXX645) and Aadhaar/PAN are masked on public interfaces.\n• **Password Defense**: 12-round bcrypt hash + automated 15-minute brute-force lockout after 5 failed tries.\n• **Audit Watermark**: All document previews are dynamically watermarked to prevent leakage.',
-        action: { label: 'View My Profile & Security', path: '/applicant/profile' }
-      };
-    }
-
-    if (q.includes('status') || q.includes('track') || q.includes('application')) {
-      return {
-        text: 'You can track all submitted applications in real-time under "My Applications". Each application shows current stage (Officer Review, Inspection Scheduled, or Approved), remaining statutory SLA countdown, and officer review notes.',
-        action: { label: 'Check Application Status', path: '/applicant/applications' }
-      };
-    }
-
-    if (q.includes('inspection') || q.includes('inspector')) {
-      return {
-        text: 'Inspections in UDAAN are conducted via Joint Multi-Departmental Verification to save you time. You will receive an SMS and portal notification with the Inspector name, contact number, and scheduled visit date.',
-        action: { label: 'View Inspections', path: '/applicant/inspections' }
-      };
-    }
-
-    if (q.includes('grievance') || q.includes('complain') || q.includes('delay')) {
-      return {
-        text: 'If an approval exceeds its statutory SLA timeline without valid reason, our automated SLA escalation engine flags it to the District Collector and Higher Directorate. You can also log a direct grievance with real-time tracking.',
-        action: { label: 'File a Grievance', path: '/applicant/grievances' }
-      };
-    }
-
-    return null; // Signals that we should use the AI fallback
-  };
-
   const handleSendMessage = async (textToSend) => {
     const query = (textToSend || inputQuery).trim();
     if (!query) return;
@@ -183,43 +55,24 @@ export const ApplicantChatbot = ({ applicantName = 'Entrepreneur' }) => {
     setInputQuery('');
     setIsTyping(true);
 
-    const ans = generateAnswer(query);
-
-    if (ans) {
-      // Simulate fast realistic AI response for hardcoded answers
-      setTimeout(() => {
-        const botMsg = {
-          id: (Date.now() + 1).toString(),
-          sender: 'bot',
-          text: ans.text,
-          action: ans.action,
-          links: ans.links,
-          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        };
-        setMessages((prev) => [...prev, botMsg]);
-        setIsTyping(false);
-      }, 600);
-    } else {
-      // Fallback to Groq AI
-      try {
-        const aiResponse = await sendChatQuery(newMessages);
-        const botMsg = {
-          id: (Date.now() + 1).toString(),
-          sender: 'bot',
-          text: aiResponse.text,
-          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        };
-        setMessages((prev) => [...prev, botMsg]);
-      } catch (err) {
-        setMessages((prev) => [...prev, {
-          id: (Date.now() + 1).toString(),
-          sender: 'bot',
-          text: 'I am experiencing a temporary network issue. Please try again.',
-          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        }]);
-      } finally {
-        setIsTyping(false);
-      }
+    try {
+      const aiResponse = await sendChatQuery(newMessages);
+      const botMsg = {
+        id: (Date.now() + 1).toString(),
+        sender: 'bot',
+        text: aiResponse.text,
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      };
+      setMessages((prev) => [...prev, botMsg]);
+    } catch (err) {
+      setMessages((prev) => [...prev, {
+        id: (Date.now() + 1).toString(),
+        sender: 'bot',
+        text: 'I am experiencing a temporary network issue. Please try again.',
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      }]);
+    } finally {
+      setIsTyping(false);
     }
   };
 
