@@ -52,11 +52,28 @@
     "title": "My Applications",
     "desc": "One application per required approval — processed in parallel by departments.",
     "submitAll": "Submit for All Approvals",
-    "submitted": "Submitted Clearances"
+    "submitted": "Submitted Clearances",
+    "activeScrutiny": "In Active Scrutiny",
+    "activeScrutinyDesc": "Under officer review / inspection",
+    "approved": "Clearances Approved",
+    "approvedDesc": "Certificates ready for download"
   },
   "profile": {
     "title": "Applicant Profile & Business Details",
     "desc": "Manage your personal information and enterprise specifics. These details define your statutory requirements.",
     "editProfile": "Edit Profile"
+  },
+  "timeline": {
+    "submitted": "Application Submitted",
+    "officerReview": "Officer Review",
+    "inspection": "Inspection",
+    "finalDecision": "Final Decision",
+    "systemValidation": "System Validation"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "unread": "unread",
+    "caughtUp": "You are all caught up",
+    "markAllRead": "Mark all read"
   }
 }

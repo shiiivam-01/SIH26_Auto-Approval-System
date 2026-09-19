@@ -338,63 +338,63 @@ export const Timeline = ({ steps }) => (
   </ol>
 );
 
-export const applicationTimelineSteps = (status, app = {}) => {
+export const applicationTimelineSteps = (status, app = {}, t = (s) => s) => {
   switch (status) {
     case 'submitted':
       return [
-        { label: 'Application Submitted', detail: 'Received & verified by UDAAN Single-Window System', state: 'done' },
-        { label: 'Officer Review', detail: 'Queued for department desk scrutiny', state: 'current' },
-        { label: 'Inspection', detail: app.requires_inspection ? 'Joint site inspection required' : 'Inspection exempt for low hazard', state: 'pending' },
-        { label: 'Final Decision', detail: 'Pending department determination', state: 'pending' },
+        { label: t('timeline.submitted', 'Application Submitted'), detail: 'Received & verified by UDAAN Single-Window System', state: 'done' },
+        { label: t('timeline.officerReview', 'Officer Review'), detail: 'Queued for department desk scrutiny', state: 'current' },
+        { label: t('timeline.inspection', 'Inspection'), detail: app.requires_inspection ? 'Joint site inspection required' : 'Inspection exempt for low hazard', state: 'pending' },
+        { label: t('timeline.finalDecision', 'Final Decision'), detail: 'Pending department determination', state: 'pending' },
       ];
     case 'pending_review':
       return [
-        { label: 'Application Submitted', detail: 'Received & attached to verified vault documents', state: 'done' },
-        { label: 'Officer Review', detail: `Desk scrutiny in progress by department officer (${app.days_left !== undefined ? `${app.days_left}d left` : 'Active'})`, state: 'current' },
-        { label: 'Inspection', detail: app.requires_inspection !== false ? 'Scheduled joint site inspection pending' : 'Inspection exempt', state: 'pending' },
-        { label: 'Final Decision', detail: 'Pending final department clearance', state: 'pending' },
+        { label: t('timeline.submitted', 'Application Submitted'), detail: 'Received & attached to verified vault documents', state: 'done' },
+        { label: t('timeline.officerReview', 'Officer Review'), detail: `Desk scrutiny in progress by department officer (${app.days_left !== undefined ? `${app.days_left}d left` : 'Active'})`, state: 'current' },
+        { label: t('timeline.inspection', 'Inspection'), detail: app.requires_inspection !== false ? 'Scheduled joint site inspection pending' : 'Inspection exempt', state: 'pending' },
+        { label: t('timeline.finalDecision', 'Final Decision'), detail: 'Pending final department clearance', state: 'pending' },
       ];
     case 'query_raised':
       return [
-        { label: 'Application Submitted', detail: 'Received by UDAAN', state: 'done' },
-        { label: 'Officer Review', detail: 'Statutory query raised by scrutiny officer — response required', state: 'failed' },
-        { label: 'Inspection', detail: 'Paused pending query resolution', state: 'pending' },
-        { label: 'Final Decision', detail: 'Pending query resolution', state: 'pending' },
+        { label: t('timeline.submitted', 'Application Submitted'), detail: 'Received by UDAAN', state: 'done' },
+        { label: t('timeline.officerReview', 'Officer Review'), detail: 'Statutory query raised by scrutiny officer — response required', state: 'failed' },
+        { label: t('timeline.inspection', 'Inspection'), detail: 'Paused pending query resolution', state: 'pending' },
+        { label: t('timeline.finalDecision', 'Final Decision'), detail: 'Pending query resolution', state: 'pending' },
       ];
     case 'pending_inspection':
       return [
-        { label: 'Application Submitted', detail: 'Received & validated by UDAAN', state: 'done' },
-        { label: 'Officer Review', detail: 'Desk scrutiny completed & approved by department', state: 'done' },
-        { label: 'Inspection', detail: `Joint site inspection scheduled (${app.days_left !== undefined ? `${app.days_left}d left` : 'Active'})`, state: 'current' },
-        { label: 'Final Decision', detail: 'Awaiting inspector compliance report', state: 'pending' },
+        { label: t('timeline.submitted', 'Application Submitted'), detail: 'Received & validated by UDAAN', state: 'done' },
+        { label: t('timeline.officerReview', 'Officer Review'), detail: 'Desk scrutiny completed & approved by department', state: 'done' },
+        { label: t('timeline.inspection', 'Inspection'), detail: `Joint site inspection scheduled (${app.days_left !== undefined ? `${app.days_left}d left` : 'Active'})`, state: 'current' },
+        { label: t('timeline.finalDecision', 'Final Decision'), detail: 'Awaiting inspector compliance report', state: 'pending' },
       ];
     case 'auto_approved':
       return [
-        { label: 'Application Submitted', detail: 'Received by UDAAN Single Window', state: 'done' },
-        { label: 'System Validation', detail: 'Low-risk automated policy verification passed', state: 'done' },
-        { label: 'Inspection', detail: 'Exempt under self-declaration policy', state: 'done' },
-        { label: 'Final Decision', detail: 'Instant Auto-Approved ✓ Certificate Ready', state: 'done' },
+        { label: t('timeline.submitted', 'Application Submitted'), detail: 'Received by UDAAN Single Window', state: 'done' },
+        { label: t('timeline.systemValidation', 'System Validation'), detail: 'Low-risk automated policy verification passed', state: 'done' },
+        { label: t('timeline.inspection', 'Inspection'), detail: 'Exempt under self-declaration policy', state: 'done' },
+        { label: t('timeline.finalDecision', 'Final Decision'), detail: 'Instant Auto-Approved ✓ Certificate Ready', state: 'done' },
       ];
     case 'approved':
       return [
-        { label: 'Application Submitted', detail: 'Received by UDAAN', state: 'done' },
-        { label: 'Officer Review', detail: 'Desk scrutiny cleared with zero non-conformities', state: 'done' },
-        { label: 'Inspection', detail: app.requires_inspection ? 'Joint inspection verified & passed' : 'Inspection exempt', state: 'done' },
-        { label: 'Final Decision', detail: 'Approved ✓ Statutory Certificate Issued', state: 'done' },
+        { label: t('timeline.submitted', 'Application Submitted'), detail: 'Received by UDAAN', state: 'done' },
+        { label: t('timeline.officerReview', 'Officer Review'), detail: 'Desk scrutiny cleared with zero non-conformities', state: 'done' },
+        { label: t('timeline.inspection', 'Inspection'), detail: app.requires_inspection ? 'Joint inspection verified & passed' : 'Inspection exempt', state: 'done' },
+        { label: t('timeline.finalDecision', 'Final Decision'), detail: 'Approved ✓ Statutory Certificate Issued', state: 'done' },
       ];
     case 'rejected':
       return [
-        { label: 'Application Submitted', detail: 'Received by UDAAN', state: 'done' },
-        { label: 'Officer Review', detail: 'Desk scrutiny completed', state: 'done' },
-        { label: 'Inspection', detail: 'Inspection completed or bypassed', state: 'done' },
-        { label: 'Final Decision', detail: 'Application rejected by department', state: 'failed' },
+        { label: t('timeline.submitted', 'Application Submitted'), detail: 'Received by UDAAN', state: 'done' },
+        { label: t('timeline.officerReview', 'Officer Review'), detail: 'Desk scrutiny completed', state: 'done' },
+        { label: t('timeline.inspection', 'Inspection'), detail: 'Inspection completed or bypassed', state: 'done' },
+        { label: t('timeline.finalDecision', 'Final Decision'), detail: 'Application rejected by department', state: 'failed' },
       ];
     default:
       return [
-        { label: 'Application Submitted', detail: 'Received by UDAAN', state: 'done' },
-        { label: 'Officer Review', detail: 'Desk scrutiny by department officer', state: 'current' },
-        { label: 'Inspection', detail: 'Joint site inspection required', state: 'pending' },
-        { label: 'Final Decision', detail: 'Pending final determination', state: 'pending' },
+        { label: t('timeline.submitted', 'Application Submitted'), detail: 'Received by UDAAN', state: 'done' },
+        { label: t('timeline.officerReview', 'Officer Review'), detail: 'Desk scrutiny by department officer', state: 'current' },
+        { label: t('timeline.inspection', 'Inspection'), detail: 'Joint site inspection required', state: 'pending' },
+        { label: t('timeline.finalDecision', 'Final Decision'), detail: 'Pending final determination', state: 'pending' },
       ];
   }
 };

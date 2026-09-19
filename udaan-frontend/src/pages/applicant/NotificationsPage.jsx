@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 import toast from 'react-hot-toast';
 import { Bell, CheckCheck } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
@@ -9,6 +10,7 @@ import { PROTOTYPE_NOTIFICATIONS } from '../../constants/prototypeData';
 
 export const NotificationsPage = ({ notificationKey = '' }) => {
   const { user } = useAuth();
+  const { t } = useTranslation();
   const isDemo = user?.email?.toLowerCase() === 'test@gmail.com';
   const queryClient = useQueryClient();
   const notifications = useQuery({
@@ -39,12 +41,12 @@ export const NotificationsPage = ({ notificationKey = '' }) => {
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Notifications"
-        description={unread > 0 ? `${unread} unread` : 'You are all caught up'}
+        title={t('notifications.title', 'Notifications')}
+        description={unread > 0 ? `${unread} ${t('notifications.unread', 'unread')}` : t('notifications.caughtUp', 'You are all caught up')}
         action={
           unread > 0 && (
             <Button variant="outline" onClick={() => markAll.mutate()} isLoading={markAll.isPending}>
-              <CheckCheck className="w-4 h-4 mr-2" /> Mark all read
+              <CheckCheck className="w-4 h-4 mr-2" /> {t('notifications.markAllRead', 'Mark all read')}
             </Button>
           )
         }

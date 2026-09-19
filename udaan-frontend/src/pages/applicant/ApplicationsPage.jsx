@@ -105,8 +105,8 @@ export const ApplicationsPage = () => {
             {apps.filter((a) => !['approved', 'auto_approved', 'rejected'].includes(a.status)).length}
           </div>
           <div>
-            <p className="text-xs font-bold text-slate-900 dark:text-white">In Active Scrutiny</p>
-            <p className="text-[11px] text-slate-500 dark:text-slate-400">Under officer review / inspection</p>
+            <p className="text-xs font-bold text-slate-900 dark:text-white">{t('applications.activeScrutiny', 'In Active Scrutiny')}</p>
+            <p className="text-[11px] text-slate-500 dark:text-slate-400">{t('applications.activeScrutinyDesc', 'Under officer review / inspection')}</p>
           </div>
         </div>
         <div className="p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-2xs flex items-center gap-3">
@@ -114,8 +114,8 @@ export const ApplicationsPage = () => {
             {apps.filter((a) => ['approved', 'auto_approved'].includes(a.status)).length}
           </div>
           <div>
-            <p className="text-xs font-bold text-slate-900 dark:text-white">Clearances Approved</p>
-            <p className="text-[11px] text-slate-500 dark:text-slate-400">Certificates ready for download</p>
+            <p className="text-xs font-bold text-slate-900 dark:text-white">{t('applications.approved', 'Clearances Approved')}</p>
+            <p className="text-[11px] text-slate-500 dark:text-slate-400">{t('applications.approvedDesc', 'Certificates ready for download')}</p>
           </div>
         </div>
       </div>
@@ -159,7 +159,7 @@ export const ApplicationsPage = () => {
               />
               <CardBody className="space-y-4">
                 {/* Active progress timeline with real status feedback */}
-                <Timeline steps={applicationTimelineSteps(a.status, a)} />
+                <Timeline steps={applicationTimelineSteps(a.status, a, t)} />
 
                 {/* Status-specific context and actions */}
                 {a.id === 201 && (
