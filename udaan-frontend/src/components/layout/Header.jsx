@@ -3,29 +3,18 @@ import { Menu, LogOut, User, ChevronDown, UserCog, ShieldCheck } from 'lucide-re
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { ThemeToggle } from '../common/ThemeToggle';
-
+import { useTranslation } from 'react-i18next';
 export const Header = ({ onMenuClick }) => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const timeoutRef = useRef(null);
-
-  const [isHindi, setIsHindi] = useState(() => {
-    return document.cookie.includes('googtrans=/en/hi');
-  });
+  const { t, i18n } = useTranslation();
 
   const toggleLanguage = () => {
-    if (isHindi) {
-      document.cookie = 'googtrans=/en/en; path=/';
-      document.cookie = 'googtrans=/en/en; domain=' + window.location.hostname + '; path=/';
-      setIsHindi(false);
-      window.location.reload();
-    } else {
-      document.cookie = 'googtrans=/en/hi; path=/';
-      document.cookie = 'googtrans=/en/hi; domain=' + window.location.hostname + '; path=/';
-      setIsHindi(true);
-      window.location.reload();
-    }
+    const newLang = i18n.language === 'en' ? 'hi' : 'en';
+    i18n.changeLanguage(newLang);
+    localStorage.setItem('udaan-lang', newLang);
   };
 
   const handleMouseEnter = () => {
@@ -163,7 +152,7 @@ export const Header = ({ onMenuClick }) => {
                       className="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100/80 dark:hover:bg-slate-800 rounded-xl transition-all duration-150 cursor-pointer group text-left"
                     >
                       <UserCog className="w-4 h-4 text-slate-400 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors" />
-                      <span>{user?.role === 'admin' ? 'System Settings' : 'Edit Profile'}</span>
+                      <span>{user?.role === 'admin' ? t('header.systemSettings') : t('header.editProfile')}</span>
                     </button>
 
                     <div className="h-px bg-slate-100 dark:bg-slate-800 my-1" />
@@ -174,7 +163,7 @@ export const Header = ({ onMenuClick }) => {
                       className="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-medium text-red-600 dark:text-red-400 hover:bg-red-50/80 dark:hover:bg-red-950/40 rounded-xl transition-all duration-150 cursor-pointer group text-left"
                     >
                       <LogOut className="w-4 h-4 text-red-500 group-hover:translate-x-0.5 transition-transform" />
-                      <span>Logout</span>
+                      <span>{t('header.logout')}</span>
                     </button>
                   </div>
                 </div>
@@ -188,7 +177,7 @@ export const Header = ({ onMenuClick }) => {
               onClick={toggleLanguage}
               className="notranslate text-[11px] font-medium px-2 py-1 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors shadow-xs"
             >
-              {isHindi ? 'Change Language' : 'भाषा बदलें'}
+              {i18n.language === 'en' ? 'हिंदी में देखें' : 'View in English'}
             </button>
             <ThemeToggle size="sm" />
           </div>

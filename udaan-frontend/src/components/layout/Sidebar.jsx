@@ -1,4 +1,5 @@
 import { NavLink, Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import {
   LayoutDashboard, X, CheckSquare, UploadCloud,
   ShieldCheck, ClipboardCheck, BarChart3, MessageSquareWarning, Bell, Settings, User,
@@ -9,39 +10,40 @@ import logo from '../../assets/logo.jpg';
 
 const roleMenus = {
   applicant: [
-    { name: 'Dashboard', path: '/applicant', icon: LayoutDashboard },
-    { name: 'Documents', path: '/applicant/documents', icon: UploadCloud },
-    { name: 'My Applications', path: '/applicant/applications', icon: CheckSquare },
-    { name: 'Inspections', path: '/applicant/inspections', icon: ClipboardCheck },
-    { name: 'Schemes', path: '/applicant/schemes', icon: ShieldCheck },
-    { name: 'Grievances', path: '/applicant/grievances', icon: MessageSquareWarning },
-    { name: 'Notifications', path: '/applicant/notifications', icon: Bell },
-    { name: 'Profile', path: '/applicant/profile', icon: User },
+    { i18nKey: 'sidebar.dashboard', path: '/applicant', icon: LayoutDashboard },
+    { i18nKey: 'sidebar.documents', path: '/applicant/documents', icon: UploadCloud },
+    { i18nKey: 'sidebar.applications', path: '/applicant/applications', icon: CheckSquare },
+    { i18nKey: 'sidebar.inspections', path: '/applicant/inspections', icon: ClipboardCheck },
+    { i18nKey: 'sidebar.schemes', path: '/applicant/schemes', icon: ShieldCheck },
+    { i18nKey: 'sidebar.grievances', path: '/applicant/grievances', icon: MessageSquareWarning },
+    { i18nKey: 'sidebar.notifications', path: '/applicant/notifications', icon: Bell },
+    { i18nKey: 'sidebar.profile', path: '/applicant/profile', icon: User },
   ],
   officer: [
-    { name: 'Dashboard', path: '/officer', icon: LayoutDashboard },
-    { name: 'Application Review', path: '/officer/reviews', icon: CheckSquare },
-    { name: 'Grievances', path: '/officer/grievances', icon: MessageSquareWarning },
-    { name: 'Notifications', path: '/officer/notifications', icon: Bell },
+    { i18nKey: 'sidebar.dashboard', path: '/officer', icon: LayoutDashboard },
+    { i18nKey: 'sidebar.applications', path: '/officer/reviews', icon: CheckSquare },
+    { i18nKey: 'sidebar.grievances', path: '/officer/grievances', icon: MessageSquareWarning },
+    { i18nKey: 'sidebar.notifications', path: '/officer/notifications', icon: Bell },
   ],
   inspector: [
-    { name: 'Dashboard', path: '/inspector', icon: LayoutDashboard },
-    { name: 'My Inspections', path: '/inspector/inspections', icon: ClipboardCheck },
-    { name: 'Notifications', path: '/inspector/notifications', icon: Bell },
+    { i18nKey: 'sidebar.dashboard', path: '/inspector', icon: LayoutDashboard },
+    { i18nKey: 'sidebar.inspections', path: '/inspector/inspections', icon: ClipboardCheck },
+    { i18nKey: 'sidebar.notifications', path: '/inspector/notifications', icon: Bell },
   ],
   admin: [
-    { name: 'Dashboard', path: '/admin', icon: LayoutDashboard },
-    { name: 'Analytics', path: '/admin/analytics', icon: BarChart3 },
-    { name: 'Inspections', path: '/admin/inspections', icon: ClipboardCheck },
-    { name: 'Grievances', path: '/admin/grievances', icon: MessageSquareWarning },
-    { name: 'Notifications', path: '/admin/notifications', icon: Bell },
-    { name: 'Settings', path: '/admin/settings', icon: Settings },
+    { i18nKey: 'sidebar.dashboard', path: '/admin', icon: LayoutDashboard },
+    { i18nKey: 'sidebar.dashboard', path: '/admin/analytics', icon: BarChart3 },
+    { i18nKey: 'sidebar.inspections', path: '/admin/inspections', icon: ClipboardCheck },
+    { i18nKey: 'sidebar.grievances', path: '/admin/grievances', icon: MessageSquareWarning },
+    { i18nKey: 'sidebar.notifications', path: '/admin/notifications', icon: Bell },
+    { i18nKey: 'header.systemSettings', path: '/admin/settings', icon: Settings },
   ],
 };
 
 export const Sidebar = ({ isOpen, onClose }) => {
   const { user } = useAuth();
   const menus = roleMenus[user?.role] || [];
+  const { t } = useTranslation();
 
   return (
     <>
@@ -104,7 +106,7 @@ export const Sidebar = ({ isOpen, onClose }) => {
               end
             >
               <item.icon className="w-5 h-5 flex-shrink-0 transition-transform duration-200 group-hover:scale-110" aria-hidden="true" />
-              <span>{item.name}</span>
+              <span>{item.i18nKey ? t(item.i18nKey) : item.name}</span>
             </NavLink>
           ))}
         </nav>

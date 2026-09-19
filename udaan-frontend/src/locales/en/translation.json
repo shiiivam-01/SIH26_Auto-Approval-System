@@ -1,0 +1,36 @@
+{
+  "header": {
+    "account": "Account",
+    "editProfile": "Edit Profile",
+    "systemSettings": "System Settings",
+    "logout": "Logout",
+    "changeLanguage": "Change Language"
+  },
+  "sidebar": {
+    "dashboard": "Dashboard",
+    "documents": "Documents",
+    "applications": "My Applications",
+    "inspections": "Inspections",
+    "schemes": "Schemes",
+    "grievances": "Grievances",
+    "notifications": "Notifications",
+    "profile": "Profile"
+  },
+  "home": {
+    "heroTitle1": "Business Approvals,",
+    "heroTitle2": "Accelerated.",
+    "heroSubtitle": "The ultimate single window clearance system. Smart routing, instant verifications, and complete transparency.",
+    "getStarted": "Get Started",
+    "selectRole": "Select your role to continue"
+  },
+  "roles": {
+    "applicant": "Applicant",
+    "applicantDesc": "Apply for NOCs, track status, and upload documents",
+    "officer": "Department Officer",
+    "officerDesc": "Review applications and verify business compliance",
+    "inspector": "Field Inspector",
+    "inspectorDesc": "Conduct site visits and submit inspection reports",
+    "admin": "System Admin",
+    "adminDesc": "Manage users, workflows, and system settings"
+  }
+}

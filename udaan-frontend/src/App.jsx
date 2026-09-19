@@ -5,7 +5,7 @@ import { AppRoutes } from './routes/AppRoutes';
 import { AuthProvider } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
 import { ErrorBoundary } from './components/common/ErrorBoundary';
-
+import './i18n';
 const queryClient = new QueryClient();
 
 function App() {

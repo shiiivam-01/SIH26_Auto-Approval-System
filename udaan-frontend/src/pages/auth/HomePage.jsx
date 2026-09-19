@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { User, ShieldCheck, ClipboardCheck, Settings, ArrowRight } from 'lucide-react';
 import logo from '../../assets/logo.jpg';
 import { ThemeToggle } from '../../components/common/ThemeToggle';
@@ -46,6 +47,7 @@ const smallRoles = [
 
 export const HomePage = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const { user, logout } = useAuth();
 
   const handleRoleClick = (roleKey) => {
@@ -100,13 +102,11 @@ export const HomePage = () => {
               Government Approval Workflow Platform
             </div>
             <h2 className="text-4xl sm:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight">
-              Single-window clearance for<br />
-              <span className="bg-gradient-to-r from-blue-600 to-teal-500 dark:from-blue-400 dark:to-teal-400 bg-clip-text text-transparent">
-                Startups
-              </span>
+              <span className="block text-slate-800 dark:text-slate-100 mb-1">{t('home.heroTitle1')}</span>
+              <span className="block text-[#1a3a6b] dark:text-blue-400">{t('home.heroTitle2')}</span>
             </h2>
-            <p className="mt-6 text-lg sm:text-xl text-slate-500 dark:text-slate-400 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-normal">
-              Apply once. Upload documents once. Track every approval in parallel — with live SLA countdowns and risk-based routing.
+            <p className="text-base sm:text-lg text-slate-600 dark:text-slate-400 mb-8 max-w-lg mx-auto lg:mx-0 leading-relaxed font-medium">
+              {t('home.heroSubtitle')}
             </p>
           </div>
 
@@ -126,10 +126,11 @@ export const HomePage = () => {
                   <applicantRole.icon className="w-7 h-7 text-white" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="font-bold text-slate-900 dark:text-white text-xl mb-1">{applicantRole.label}</p>
-                  <p className="text-sm font-medium text-slate-500 dark:text-slate-400 mb-2">{applicantRole.desc}</p>
-                  <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed opacity-70 group-hover:opacity-100 transition-opacity duration-300">
-                    {applicantRole.detail}
+                  <h3 className="text-lg font-bold text-slate-800 dark:text-slate-100 mb-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                    {t('roles.applicant')}
+                  </h3>
+                  <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+                    {t('roles.applicantDesc')}
                   </p>
                 </div>
               </div>
