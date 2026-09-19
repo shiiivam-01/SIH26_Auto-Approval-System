@@ -486,7 +486,7 @@ export const DocumentsPage = () => {
                         <span>Uploaded {new Date(d.uploaded_at).toLocaleDateString()}</span>
                         <span>•</span>
                         <span className="inline-flex items-center gap-1 text-emerald-600 dark:text-emerald-400 font-medium">
-                          <Lock className="w-3 h-3" /> AES-256 Encrypted
+                          <Lock className="w-3 h-3" /> Secure Storage
                         </span>
                       </div>
                     </div>
@@ -528,7 +528,7 @@ export const DocumentsPage = () => {
               <div className="pointer-events-none absolute inset-0 flex items-center justify-center select-none rotate-[-25deg] opacity-15 text-slate-900 dark:text-white font-extrabold text-xs sm:text-sm text-center leading-loose z-10">
                 CONFIDENTIAL RECORD • UDAAN GOV<br />
                 {previewDoc.document_type} • APPLICANT ID #{applicantId}<br />
-                {new Date().toISOString()} • AES-256-GCM VERIFIED
+                {new Date().toISOString()} • SYSTEM VERIFIED
               </div>
 
               <div className="relative z-0 max-h-96 overflow-auto w-full flex items-center justify-center">
@@ -541,7 +541,7 @@ export const DocumentsPage = () => {
                       {previewDoc.document_type}
                     </p>
                     <p className="text-xs text-slate-500 max-w-sm mx-auto">
-                      Statutory Document verified and protected with AES-256-GCM encryption at rest.
+                      Statutory Document verified and securely stored.
                     </p>
                     <a
                       href={previewDoc.file_url}

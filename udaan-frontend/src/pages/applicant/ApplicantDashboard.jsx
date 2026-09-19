@@ -474,7 +474,7 @@ export const ApplicantDashboard = () => {
                               </p>
                             </div>
                             <div className="pt-2 border-t border-slate-200/50 dark:border-slate-800/50 flex items-center justify-between text-[11px] text-slate-400">
-                              <span className="text-emerald-700 dark:text-emerald-400 font-medium">AES-256 Encrypted</span>
+                              <span className="text-emerald-700 dark:text-emerald-400 font-medium">Secure Storage</span>
                               <span>{doc.expiry_date ? `Exp: ${new Date(doc.expiry_date).toLocaleDateString()}` : 'Lifetime Valid'}</span>
                             </div>
                           </div>
@@ -484,7 +484,7 @@ export const ApplicantDashboard = () => {
 
                     <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-100 dark:border-slate-800">
                       <span className="text-xs text-slate-500 dark:text-slate-400">
-                        Documents stored in your vault are cryptographic AES-256 protected.
+                        Documents stored in your vault are securely protected.
                       </span>
                       <Button size="sm" onClick={() => navigate('/applicant/documents')}>
                         <UploadCloud className="w-3.5 h-3.5 mr-1" />
