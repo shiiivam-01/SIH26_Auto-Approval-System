@@ -32,5 +32,14 @@
     "inspectorDesc": "Conduct site visits and submit inspection reports",
     "admin": "System Admin",
     "adminDesc": "Manage users, workflows, and system settings"
+  },
+  "dashboard": {
+    "welcome": "Welcome",
+    "approvalsRequired": "Approvals Required",
+    "docsVerified": "Docs Verified",
+    "inProgress": "In Progress",
+    "slaBreached": "SLA Breached",
+    "yourApprovals": "Your Approvals",
+    "yourApprovalsDesc": "Live status with SLA countdown — synchronized in real-time"
   }
 }

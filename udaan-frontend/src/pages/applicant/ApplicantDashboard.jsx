@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import {
@@ -67,6 +68,7 @@ const slaLabel = (a) =>
 export const ApplicantDashboard = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const { data: profile, isLoading: profileLoading, hasProfile } = useProfile();
   const applicantId = profile?.id;
   const queryClient = useQueryClient();
@@ -138,7 +140,7 @@ export const ApplicantDashboard = () => {
   return (
     <div className="space-y-6 animate-slide-up">
       <PageHeader
-        title={`Welcome, ${user?.name?.split(' ')[0] || 'Entrepreneur'}`}
+        title={`${t('dashboard.welcome')}, ${user?.name?.split(' ')[0] || 'Entrepreneur'}`}
         description={
           profile?.is_customized && profile?.business_name
             ? `${profile.business_name} · ${(profile.business_type || profile.sector || '').replace(/_/g, ' ')} · ${profile.state || 'Madhya Pradesh'}`
@@ -156,7 +158,7 @@ export const ApplicantDashboard = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <KpiCard
           icon={FileText}
-          label="Approvals Required"
+          label={t('dashboard.approvalsRequired')}
           value={checklist.data?.total_approvals_required ?? (isDemo ? 6 : 0)}
           iconBg="bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 border-blue-100 dark:border-blue-900/50"
           isActive={selectedKpi === 'approvals'}
@@ -164,7 +166,7 @@ export const ApplicantDashboard = () => {
         />
         <KpiCard
           icon={UploadCloud}
-          label="Docs Verified"
+          label={t('dashboard.docsVerified')}
           value={`${verifiedDocs}/${docs.length}`}
           iconBg="bg-teal-50 dark:bg-teal-950/40 text-teal-600 dark:text-teal-400 border-teal-100 dark:border-teal-900/50"
           isActive={selectedKpi === 'docs'}
@@ -172,7 +174,7 @@ export const ApplicantDashboard = () => {
         />
         <KpiCard
           icon={Clock}
-          label="In Progress"
+          label={t('dashboard.inProgress')}
           value={pendingReview}
           iconBg="bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 border-amber-100 dark:border-amber-900/50"
           isActive={selectedKpi === 'in_progress'}
@@ -180,7 +182,7 @@ export const ApplicantDashboard = () => {
         />
         <KpiCard
           icon={AlertTriangle}
-          label="SLA Breached"
+          label={t('dashboard.slaBreached')}
           value={breached}
           iconBg="bg-red-50 dark:bg-red-950/40 text-red-600 dark:text-red-400 border-red-100 dark:border-red-900/50"
           isActive={selectedKpi === 'sla'}
@@ -717,8 +719,8 @@ export const ApplicantDashboard = () => {
       {/* Applications status list */}
       <Card>
         <CardHeader
-          title="Your Approvals"
-          subtitle="Live status with SLA countdown — synchronized in real-time"
+          title={t('dashboard.yourApprovals')}
+          subtitle={t('dashboard.yourApprovalsDesc')}
         />
         <CardBody>
           {apps.length === 0 ? (
