@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
@@ -19,6 +20,7 @@ const slaTone = (a) =>
 
 export const ApplicationsPage = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const { user } = useAuth();
   const isDemo = user?.email?.toLowerCase() === 'test@gmail.com';
   const { data: profile } = useProfile();
@@ -62,11 +64,11 @@ export const ApplicationsPage = () => {
   return (
     <div className="space-y-6">
       <PageHeader
-        title="My Applications"
-        description="One application per required approval — processed in parallel by departments."
+        title={t('applications.title')}
+        description={t('applications.desc')}
         action={
           <Button onClick={() => { setMissing(null); setConfirmOpen(true); }} disabled={submit.isPending || (checklist.data?.total_approvals_required ?? 0) === 0}>
-            <Send className="w-4 h-4 mr-2" /> Submit for All Approvals
+            <Send className="w-4 h-4 mr-2" /> {t('applications.submitAll')}
           </Button>
         }
       />
@@ -94,7 +96,7 @@ export const ApplicationsPage = () => {
             {apps.length}
           </div>
           <div>
-            <p className="text-xs font-bold text-slate-900 dark:text-white">Submitted Clearances</p>
+            <p className="text-xs font-bold text-slate-900 dark:text-white">{t('applications.submitted')}</p>
             <p className="text-[11px] text-slate-500 dark:text-slate-400">Processed in parallel by departments</p>
           </div>
         </div>

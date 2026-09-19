@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import {
@@ -29,6 +30,7 @@ const expiryChip = (d) => {
 
 export const DocumentsPage = () => {
   const { user } = useAuth();
+  const { t } = useTranslation();
   const { data: profile } = useProfile();
   const applicantId = profile?.id;
   const vault = useVault(applicantId);
@@ -143,15 +145,15 @@ export const DocumentsPage = () => {
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Document Vault"
-        description="Upload once, reuse across every approval. Officers verify — you cannot self-verify."
-        action={<Button onClick={() => { setUploadOpen(true); setFormError(''); }}><UploadCloud className="w-4 h-4 mr-2" /> Upload Document</Button>}
+        title={t('documents.title')}
+        description={t('documents.desc')}
+        action={<Button onClick={() => { setUploadOpen(true); setFormError(''); }}><UploadCloud className="w-4 h-4 mr-2" /> {t('documents.upload')}</Button>}
       />
 
       {/* Submission Readiness Card with Core & Statutory Views */}
       <Card>
         <CardHeader
-          title="Submission Readiness"
+          title={t('documents.readiness')}
           subtitle={
             readinessTab === 'core'
               ? `${readyCoreDocs.length} of ${coreDocs.length} required documents ready (verified & valid)`

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   User, Building2, ShieldCheck, CheckCircle2, Lock, Eye, EyeOff,
@@ -17,6 +18,7 @@ import { INDUSTRY_GOV_DOCUMENT_MAP, getIndustryDocumentList } from '../../consta
 
 export const ProfilePage = () => {
   const { user, updateUser } = useAuth();
+  const { t } = useTranslation();
   const isDemo = user?.email?.toLowerCase() === 'test@gmail.com';
   const queryClient = useQueryClient();
 
@@ -208,7 +210,7 @@ export const ProfilePage = () => {
         <div>
           <div className="flex items-center gap-2.5 mb-1.5 flex-wrap">
             <h1 className="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">
-              My Profile
+              {t('profile.title')}
             </h1>
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/60">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
@@ -216,7 +218,7 @@ export const ProfilePage = () => {
             </span>
           </div>
           <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
-            View and manage your personal identity credentials and business registration details.
+            {t('profile.desc')}
           </p>
         </div>
 
@@ -226,7 +228,7 @@ export const ProfilePage = () => {
           className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[#1a3a6b] dark:bg-blue-600 hover:bg-[#14306a] dark:hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold shadow-xs transition-all duration-200 active:scale-98 cursor-pointer shrink-0"
         >
           <Edit3 className="w-4 h-4" />
-          <span>Edit Profile</span>
+          <span>{t('profile.editProfile')}</span>
         </button>
       </div>
 

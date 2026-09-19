@@ -41,5 +41,22 @@
     "slaBreached": "SLA Breached",
     "yourApprovals": "Your Approvals",
     "yourApprovalsDesc": "Live status with SLA countdown — synchronized in real-time"
+  },
+  "documents": {
+    "title": "Document Vault",
+    "desc": "Upload once, reuse across every approval. Officers verify — you cannot self-verify.",
+    "upload": "Upload Document",
+    "readiness": "Submission Readiness"
+  },
+  "applications": {
+    "title": "My Applications",
+    "desc": "One application per required approval — processed in parallel by departments.",
+    "submitAll": "Submit for All Approvals",
+    "submitted": "Submitted Clearances"
+  },
+  "profile": {
+    "title": "Applicant Profile & Business Details",
+    "desc": "Manage your personal information and enterprise specifics. These details define your statutory requirements.",
+    "editProfile": "Edit Profile"
   }
 }
