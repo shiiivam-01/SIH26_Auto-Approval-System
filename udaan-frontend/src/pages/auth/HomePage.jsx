@@ -62,12 +62,12 @@ export const HomePage = () => {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 text-slate-900 dark:text-slate-100 flex flex-col transition-colors duration-200">
       {/* Header */}
       <header className="px-6 py-5 flex items-center justify-between max-w-7xl mx-auto w-full animate-fade-in">
-        <div className="flex items-center space-x-3">
+        <div className="flex items-center space-x-3 cursor-pointer" onClick={() => navigate('/')}>
           <img src={logo} alt="UDAAN" className="w-10 h-10 rounded-lg shadow-sm" />
           <div>
             <h1 className="text-xl font-bold text-slate-900 dark:text-white tracking-tight">UDAAN</h1>
             <p className="text-[11px] text-slate-500 dark:text-slate-400 -mt-0.5">Unified Digital Approval & Assistance Network</p>
-            <a href="#about" className="text-[11px] font-semibold text-blue-600 dark:text-blue-400 hover:underline inline-block mt-0.5">About Us</a>
+            <button onClick={() => navigate('/about')} className="text-[11px] font-semibold text-blue-600 dark:text-blue-400 hover:underline inline-block mt-0.5 cursor-pointer">About Us</button>
           </div>
         </div>
         
@@ -158,16 +158,6 @@ export const HomePage = () => {
 
         </div>
       </main>
-
-      {/* About Section */}
-      <section id="about" className="py-16 px-6 bg-white dark:bg-slate-950 border-t border-slate-200/60 dark:border-slate-800/60 transition-colors duration-200">
-        <div className="max-w-4xl mx-auto text-center animate-fade-in">
-          <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mb-6 tracking-tight">About UDAAN</h2>
-          <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 leading-relaxed max-w-3xl mx-auto">
-            UDAAN (Unified Digital Approval & Assistance Network) is a state-of-the-art Single Window Clearance system designed to empower businesses and entrepreneurs. Our platform integrates AI-powered assistance, intelligent application routing, and real-time SLA tracking to eliminate red tape, accelerate statutory approvals, and bring complete transparency to government workflows.
-          </p>
-        </div>
-      </section>
 
       <footer className="px-6 py-5 text-center text-xs text-slate-400 dark:text-slate-500 border-t border-slate-100 dark:border-slate-800/80 bg-slate-50 dark:bg-slate-900">
         © 2026 UDAAN

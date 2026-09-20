@@ -87,44 +87,85 @@ export const AboutPage = () => {
           </div>
         </section>
 
-        {/* Features Grid */}
-        <section className="py-20 px-6 max-w-7xl mx-auto">
+        {/* Workflow & Process Diagram */}
+        <section className="py-20 px-6 bg-slate-50 dark:bg-slate-950 max-w-7xl mx-auto">
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-4xl font-extrabold mb-4">Core Infrastructure</h2>
+            <h2 className="text-3xl md:text-4xl font-extrabold mb-4">How UDAAN Works</h2>
             <p className="text-lg text-slate-600 dark:text-slate-400 font-medium">
-              UDAAN is built on a modern architecture designed to enforce accountability and drastically reduce processing times.
+              A transparent, fully digital workflow from application to final clearance.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white dark:bg-slate-900 p-8 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-800 hover:shadow-xl transition-shadow">
-              <div className="w-14 h-14 bg-blue-100 dark:bg-blue-900/30 rounded-2xl flex items-center justify-center mb-6">
-                <ShieldCheck className="w-7 h-7 text-blue-600 dark:text-blue-400" />
+          {/* Flowchart Diagram */}
+          <div className="relative mb-20">
+            {/* Connecting Line (Desktop) */}
+            <div className="hidden md:block absolute top-1/2 left-0 w-full h-1 bg-gradient-to-r from-blue-200 via-teal-200 to-indigo-200 dark:from-blue-900 dark:via-teal-900 dark:to-indigo-900 -translate-y-1/2 z-0 rounded-full" />
+            
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-4 relative z-10">
+              
+              {/* Step 1 */}
+              <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-800 text-center relative hover:-translate-y-2 transition-transform duration-300">
+                <div className="w-16 h-16 mx-auto bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center mb-4 ring-8 ring-white dark:ring-slate-950 shadow-sm">
+                  <ShieldCheck className="w-8 h-8 text-blue-600 dark:text-blue-400" />
+                </div>
+                <h3 className="text-lg font-bold mb-2">1. Single Application</h3>
+                <p className="text-sm text-slate-600 dark:text-slate-400">
+                  User fills out one smart form and uploads documents to the secure vault.
+                </p>
               </div>
-              <h3 className="text-xl font-bold mb-3">Secure Document Vault</h3>
+
+              {/* Step 2 */}
+              <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-800 text-center relative hover:-translate-y-2 transition-transform duration-300">
+                <div className="w-16 h-16 mx-auto bg-amber-100 dark:bg-amber-900/30 rounded-full flex items-center justify-center mb-4 ring-8 ring-white dark:ring-slate-950 shadow-sm">
+                  <Rocket className="w-8 h-8 text-amber-600 dark:text-amber-400" />
+                </div>
+                <h3 className="text-lg font-bold mb-2">2. Smart Routing</h3>
+                <p className="text-sm text-slate-600 dark:text-slate-400">
+                  AI engine instantly identifies required NOCs and broadcasts data to relevant departments.
+                </p>
+              </div>
+
+              {/* Step 3 */}
+              <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-800 text-center relative hover:-translate-y-2 transition-transform duration-300">
+                <div className="w-16 h-16 mx-auto bg-teal-100 dark:bg-teal-900/30 rounded-full flex items-center justify-center mb-4 ring-8 ring-white dark:ring-slate-950 shadow-sm">
+                  <Clock className="w-8 h-8 text-teal-600 dark:text-teal-400" />
+                </div>
+                <h3 className="text-lg font-bold mb-2">3. Parallel Processing</h3>
+                <p className="text-sm text-slate-600 dark:text-slate-400">
+                  Officers and Inspectors review concurrently with real-time SLA countdowns.
+                </p>
+              </div>
+
+              {/* Step 4 */}
+              <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-800 text-center relative hover:-translate-y-2 transition-transform duration-300">
+                <div className="w-16 h-16 mx-auto bg-indigo-100 dark:bg-indigo-900/30 rounded-full flex items-center justify-center mb-4 ring-8 ring-white dark:ring-slate-950 shadow-sm">
+                  <Building2 className="w-8 h-8 text-indigo-600 dark:text-indigo-400" />
+                </div>
+                <h3 className="text-lg font-bold mb-2">4. Auto Approval</h3>
+                <p className="text-sm text-slate-600 dark:text-slate-400">
+                  If SLA breaches or all rules match, the system automatically issues the digital clearance.
+                </p>
+              </div>
+
+            </div>
+          </div>
+          
+          <div className="bg-white dark:bg-slate-900 p-8 md:p-12 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm text-center md:text-left flex flex-col md:flex-row gap-8 items-center">
+            <div className="flex-1">
+              <h3 className="text-2xl font-bold mb-4">The Auto-Approval Engine</h3>
+              <p className="text-slate-600 dark:text-slate-400 leading-relaxed font-medium mb-4">
+                Our Auto-Approval system ensures businesses are not held back by bureaucratic delays. When a department exceeds its designated SLA timeframe, the system's rule-engine kicks in. 
+              </p>
               <p className="text-slate-600 dark:text-slate-400 leading-relaxed font-medium">
-                Upload your sensitive documents (PAN, Aadhaar, MOA) once into a highly secure, encrypted vault. They are instantly reused for all future departmental applications.
+                If the application meets all predefined structural criteria (documents uploaded, no critical flags), the platform automatically issues an interim or final clearance certificate, shifting accountability back to the department while letting the founder proceed.
               </p>
             </div>
-
-            <div className="bg-white dark:bg-slate-900 p-8 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-800 hover:shadow-xl transition-shadow">
-              <div className="w-14 h-14 bg-teal-100 dark:bg-teal-900/30 rounded-2xl flex items-center justify-center mb-6">
-                <Clock className="w-7 h-7 text-teal-600 dark:text-teal-400" />
-              </div>
-              <h3 className="text-xl font-bold mb-3">Live SLA Countdowns</h3>
-              <p className="text-slate-600 dark:text-slate-400 leading-relaxed font-medium">
-                Every department has a strict Service Level Agreement (SLA). The system tracks deadlines live, automatically escalating delayed applications to higher authorities.
-              </p>
-            </div>
-
-            <div className="bg-white dark:bg-slate-900 p-8 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-800 hover:shadow-xl transition-shadow">
-              <div className="w-14 h-14 bg-indigo-100 dark:bg-indigo-900/30 rounded-2xl flex items-center justify-center mb-6">
-                <Building2 className="w-7 h-7 text-indigo-600 dark:text-indigo-400" />
-              </div>
-              <h3 className="text-xl font-bold mb-3">Parallel Processing</h3>
-              <p className="text-slate-600 dark:text-slate-400 leading-relaxed font-medium">
-                Stop waiting for one department to finish before applying to the next. UDAAN intelligently broadcasts your data to all required departments simultaneously.
-              </p>
+            <div className="w-full md:w-1/3 bg-blue-50 dark:bg-blue-900/20 rounded-2xl p-6 text-center border border-blue-100 dark:border-blue-800/30">
+               <div className="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse shadow-lg shadow-blue-500/30">
+                  <span className="text-white font-black text-xl">SLA</span>
+               </div>
+               <p className="font-bold text-blue-900 dark:text-blue-100 text-lg mb-1">Time's up?</p>
+               <p className="text-sm text-blue-700 dark:text-blue-300 font-medium">System auto-issues the certificate.</p>
             </div>
           </div>
         </section>
