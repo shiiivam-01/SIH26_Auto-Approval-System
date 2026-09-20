@@ -71,8 +71,10 @@ export const HomePage = () => {
         </div>
         
         {/* Top right actions */}
-        <div className="flex items-center gap-3.5">
-          <ThemeToggle />
+        <div className="flex items-center gap-5 sm:gap-6">
+          <a href="#about" className="hidden sm:block text-sm font-semibold text-slate-600 hover:text-blue-600 dark:text-slate-300 dark:hover:text-blue-400 transition-colors">About Us</a>
+          <div className="flex items-center gap-3.5 border-l border-slate-200 dark:border-slate-700 pl-5 sm:pl-6">
+            <ThemeToggle />
           {user ? (
             <button
               onClick={() => navigate(`/${user.role}`)}
@@ -97,9 +99,23 @@ export const HomePage = () => {
           
           {/* Left Column - Text */}
           <div className="lg:w-1/2 text-center lg:text-left lg:-translate-y-6 animate-slide-up">
-            <div className="inline-flex items-center gap-2 bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 text-sm font-semibold px-4 py-2 rounded-full mb-8 shadow-xs border border-blue-100 dark:border-blue-900">
-              <span className="w-2 h-2 bg-blue-500 rounded-full animate-pulse" />
-              Government Approval Workflow Platform
+            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 mb-8">
+              <div className="inline-flex items-center gap-2 bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 text-[13px] font-semibold px-4 py-2 rounded-full shadow-xs border border-blue-100 dark:border-blue-900">
+                <span className="w-2 h-2 bg-blue-500 rounded-full animate-pulse" />
+                Government Approval Workflow
+              </div>
+              <div className="inline-flex items-center gap-2 bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 text-[13px] font-semibold px-4 py-2 rounded-full shadow-xs border border-emerald-100 dark:border-emerald-900">
+                <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" style={{ animationDelay: '200ms' }} />
+                AI-Powered Assistance
+              </div>
+              <div className="inline-flex items-center gap-2 bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 text-[13px] font-semibold px-4 py-2 rounded-full shadow-xs border border-amber-100 dark:border-amber-900">
+                <span className="w-2 h-2 bg-amber-500 rounded-full animate-pulse" style={{ animationDelay: '400ms' }} />
+                Intelligent Routing
+              </div>
+              <div className="inline-flex items-center gap-2 bg-purple-50 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 text-[13px] font-semibold px-4 py-2 rounded-full shadow-xs border border-purple-100 dark:border-purple-900">
+                <span className="w-2 h-2 bg-purple-500 rounded-full animate-pulse" style={{ animationDelay: '600ms' }} />
+                Real-time Tracking
+              </div>
             </div>
             <h2 className="text-4xl sm:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight">
               <span className="block text-slate-800 dark:text-slate-100 mb-1">{t('home.heroTitle1')}</span>
