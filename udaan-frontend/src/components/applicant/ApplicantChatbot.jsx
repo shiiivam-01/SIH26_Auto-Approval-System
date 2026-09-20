@@ -5,6 +5,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 import { sendChatQuery } from '../../api/chatApi';
 
 const QUICK_PROMPTS = [
@@ -259,7 +260,22 @@ export const ApplicantChatbot = ({ applicantName = 'Entrepreneur' }) => {
 
       {/* FLOATING ACTION BUTTONS (Voice Assistant + Chatbot) */}
       <div className="flex flex-col items-end gap-2.5">
-
+        
+        {/* VOICE ASSISTANT FAB TRIGGER */}
+        <button
+          type="button"
+          onClick={() => {
+            toast.success("Voice assistant connecting...");
+          }}
+          className="w-11 h-11 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white flex items-center justify-center shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer focus:outline-none focus:ring-4 focus:ring-emerald-500/20 relative"
+          title="Sarvam Voice Assistant"
+        >
+          <Mic className="w-5 h-5" />
+          <span className="absolute -top-0.5 -right-0.5 flex h-2.5 w-2.5">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-200 opacity-75" />
+            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-white border-2 border-emerald-500" />
+          </span>
+        </button>
 
         {/* CHATBOT FAB TRIGGER */}
         <div className="relative group flex items-center justify-end">

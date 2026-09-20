@@ -146,7 +146,7 @@ export const ProfileSetupPage = () => {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Input
-              label="Total Investment (₹)"
+              label="Total Investment (₹ Lakhs)"
               required
               type="number"
               step="0.01"

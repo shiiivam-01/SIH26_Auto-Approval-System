@@ -460,7 +460,7 @@ export const ProfilePage = () => {
             </span>
             <div className="text-sm font-semibold text-slate-900 dark:text-white flex items-center gap-2">
               <IndianRupee className="w-4 h-4 text-slate-400" />
-              <span>₹ {Number(profile?.investment_amount || formData.investment_amount || '1500000').toLocaleString('en-IN')} (Micro Enterprise)</span>
+              <span>₹ {Number(profile?.investment_amount || formData.investment_amount || '1500000').toLocaleString('en-IN')} Lakhs (Micro Enterprise)</span>
             </div>
           </div>
 
@@ -899,7 +899,7 @@ export const ProfilePage = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                      Total Investment (₹)
+                      Total Investment (₹ Lakhs)
                     </label>
                     <input
                       type="number"
