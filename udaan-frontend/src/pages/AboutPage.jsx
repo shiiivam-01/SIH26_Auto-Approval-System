@@ -104,12 +104,23 @@ export const AboutPage = () => {
               <div className="absolute top-1/2 left-10 right-10 h-2 bg-slate-200 dark:bg-slate-800 -translate-y-1/2 z-0 rounded-full" />
 
               {/* Main Node 1: Applicant */}
-              <div className="relative z-10 flex flex-col items-center w-48 group">
-                <div className="w-24 h-24 bg-white dark:bg-slate-900 border-4 border-blue-500 rounded-full flex items-center justify-center shadow-lg transition-transform group-hover:scale-105">
+              <div className="relative z-10 flex flex-col items-center w-48 group cursor-pointer">
+                <div className="w-24 h-24 bg-white dark:bg-slate-900 border-4 border-blue-500 rounded-full flex items-center justify-center shadow-lg transition-transform group-hover:scale-105 relative z-20">
                   <User className="w-10 h-10 text-blue-600 dark:text-blue-400" />
                 </div>
                 <h3 className="mt-4 font-black text-lg text-slate-800 dark:text-slate-100 uppercase tracking-wide">Applicant</h3>
                 <p className="text-xs text-slate-500 text-center mt-1 font-medium">Registers on UDAAN</p>
+
+                {/* Hover Reveal Card - Applicant */}
+                <div className="absolute top-28 mt-4 w-64 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-2xl p-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 translate-y-4 group-hover:translate-y-0 z-30">
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-6 h-6 bg-white dark:bg-slate-900 border-t border-l border-slate-200 dark:border-slate-700 rotate-45"></div>
+                  <div className="relative z-10 text-left">
+                    <h4 className="font-bold text-blue-700 dark:text-blue-400 text-sm mb-1">Applicant Role</h4>
+                    <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                      Individuals or businesses applying for NOCs. They submit documents, track live status, respond to queries, and download final certificates.
+                    </p>
+                  </div>
+                </div>
               </div>
 
               {/* Interactive Arrow 1 */}
@@ -145,12 +156,32 @@ export const AboutPage = () => {
               </div>
 
               {/* Main Node 2: Department */}
-              <div className="relative z-10 flex flex-col items-center w-48 group">
-                <div className="w-24 h-24 bg-white dark:bg-slate-900 border-4 border-indigo-500 rounded-full flex items-center justify-center shadow-lg transition-transform group-hover:scale-105">
+              <div className="relative z-10 flex flex-col items-center w-48 group cursor-pointer">
+                <div className="w-24 h-24 bg-white dark:bg-slate-900 border-4 border-indigo-500 rounded-full flex items-center justify-center shadow-lg transition-transform group-hover:scale-105 relative z-20">
                   <Building2 className="w-10 h-10 text-indigo-600 dark:text-indigo-400" />
                 </div>
                 <h3 className="mt-4 font-black text-lg text-slate-800 dark:text-slate-100 uppercase tracking-wide">Department</h3>
                 <p className="text-xs text-slate-500 text-center mt-1 font-medium">Parallel Officer Review</p>
+                
+                {/* Hover Reveal Card - Department */}
+                <div className="absolute top-28 mt-4 w-72 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-2xl p-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 translate-y-4 group-hover:translate-y-0 z-30">
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-6 h-6 bg-white dark:bg-slate-900 border-t border-l border-slate-200 dark:border-slate-700 rotate-45"></div>
+                  <div className="relative z-10 text-left space-y-3">
+                    <div>
+                      <h4 className="font-bold text-indigo-700 dark:text-indigo-400 text-sm mb-1">Reviewing Officer</h4>
+                      <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">
+                        Verifies submitted documents against department guidelines. They can approve, reject, or request more info.
+                      </p>
+                    </div>
+                    <hr className="border-slate-100 dark:border-slate-800" />
+                    <div>
+                      <h4 className="font-bold text-orange-700 dark:text-orange-400 text-sm mb-1">Inspection Department</h4>
+                      <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">
+                        If required, ground officers perform physical site visits and upload their verification reports directly to the portal.
+                      </p>
+                    </div>
+                  </div>
+                </div>
               </div>
 
               {/* Interactive Arrow 2 */}
@@ -186,17 +217,26 @@ export const AboutPage = () => {
               </div>
 
               {/* Main Node 3: Clearance */}
-              <div className="relative z-10 flex flex-col items-center w-48 group">
-                <div className="w-24 h-24 bg-white dark:bg-slate-900 border-4 border-emerald-500 rounded-full flex items-center justify-center shadow-lg transition-transform group-hover:scale-105">
+              <div className="relative z-10 flex flex-col items-center w-48 group cursor-pointer">
+                <div className="w-24 h-24 bg-white dark:bg-slate-900 border-4 border-emerald-500 rounded-full flex items-center justify-center shadow-lg transition-transform group-hover:scale-105 relative z-20">
                   <CheckCircle className="w-10 h-10 text-emerald-600 dark:text-emerald-400" />
                 </div>
                 <h3 className="mt-4 font-black text-lg text-slate-800 dark:text-slate-100 uppercase tracking-wide">Clearance</h3>
                 <p className="text-xs text-slate-500 text-center mt-1 font-medium">Approval Granted & Notified</p>
+
+                {/* Hover Reveal Card - Clearance */}
+                <div className="absolute top-28 mt-4 w-64 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-2xl p-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 translate-y-4 group-hover:translate-y-0 z-30">
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-6 h-6 bg-white dark:bg-slate-900 border-t border-l border-slate-200 dark:border-slate-700 rotate-45"></div>
+                  <div className="relative z-10 text-left">
+                    <h4 className="font-bold text-emerald-700 dark:text-emerald-400 text-sm mb-1">Final Clearance</h4>
+                    <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                      System automatically issues the verifiable digital certificate. The applicant is notified and can track future compliance.
+                    </p>
+                  </div>
+                </div>
               </div>
 
             </div>
-            
-            <p className="text-center text-sm text-slate-500 mt-12 italic">Hover over the arrows above to see the detailed in-between processes.</p>
           </div>
           
           {/* Mobile Fallback (Grid) */}
