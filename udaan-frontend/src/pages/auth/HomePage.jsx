@@ -67,30 +67,13 @@ export const HomePage = () => {
           <div>
             <h1 className="text-xl font-bold text-slate-900 dark:text-white tracking-tight">UDAAN</h1>
             <p className="text-[11px] text-slate-500 dark:text-slate-400 -mt-0.5">Unified Digital Approval & Assistance Network</p>
+            <a href="#about" className="text-[11px] font-semibold text-blue-600 dark:text-blue-400 hover:underline inline-block mt-0.5">About Us</a>
           </div>
         </div>
         
         {/* Top right actions */}
-        <div className="flex items-center gap-5 sm:gap-6">
-          <a href="#about" className="hidden sm:block text-sm font-semibold text-slate-600 hover:text-blue-600 dark:text-slate-300 dark:hover:text-blue-400 transition-colors">About Us</a>
-          <div className="flex items-center gap-3.5 border-l border-slate-200 dark:border-slate-700 pl-5 sm:pl-6">
-            <ThemeToggle />
-          {user ? (
-            <button
-              onClick={() => navigate(`/${user.role}`)}
-              className="text-xs sm:text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 px-3.5 py-1.5 rounded-xl shadow-xs transition-all duration-200"
-            >
-              Go to {user.role.toUpperCase()} Dashboard →
-            </button>
-          ) : (
-            <button
-              onClick={() => navigate('/login')}
-              className="text-sm font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-all duration-200 hover:translate-x-0.5"
-            >
-              Sign in →
-            </button>
-          )}
-          </div>
+        <div className="flex items-center gap-3.5">
+          <ThemeToggle />
         </div>
       </header>
 
@@ -176,7 +159,17 @@ export const HomePage = () => {
         </div>
       </main>
 
-      <footer className="px-6 py-4 text-center text-xs text-slate-400 dark:text-slate-500 border-t border-slate-100 dark:border-slate-800/80">
+      {/* About Section */}
+      <section id="about" className="py-16 px-6 bg-white dark:bg-slate-950 border-t border-slate-200/60 dark:border-slate-800/60 transition-colors duration-200">
+        <div className="max-w-4xl mx-auto text-center animate-fade-in">
+          <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mb-6 tracking-tight">About UDAAN</h2>
+          <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 leading-relaxed max-w-3xl mx-auto">
+            UDAAN (Unified Digital Approval & Assistance Network) is a state-of-the-art Single Window Clearance system designed to empower businesses and entrepreneurs. Our platform integrates AI-powered assistance, intelligent application routing, and real-time SLA tracking to eliminate red tape, accelerate statutory approvals, and bring complete transparency to government workflows.
+          </p>
+        </div>
+      </section>
+
+      <footer className="px-6 py-5 text-center text-xs text-slate-400 dark:text-slate-500 border-t border-slate-100 dark:border-slate-800/80 bg-slate-50 dark:bg-slate-900">
         © 2026 UDAAN
       </footer>
     </div>
