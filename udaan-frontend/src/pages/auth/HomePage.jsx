@@ -90,6 +90,7 @@ export const HomePage = () => {
               Sign in →
             </button>
           )}
+          </div>
         </div>
       </header>
 
