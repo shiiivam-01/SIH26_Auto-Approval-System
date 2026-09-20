@@ -52,11 +52,10 @@ export const GRIEVANCE_PRIORITY = {
 };
 
 export const STAGE = {
-  pre_registration: 'Pre-registration',
-  registered_not_operational: 'Registered, not yet operational',
-  operational_less_1: 'Operational (<1 year)',
-  operational_1_3: 'Operational (1-3 years)',
-  operational_more_3: 'Operational (>3 years)',
+  pre_establishment: 'Pre-establishment',
+  construction: 'Construction / Setup',
+  operational: 'Operational',
+  renewal: 'Renewal / Expansion',
 };
 
 export const NOTIFICATION_TYPE = {

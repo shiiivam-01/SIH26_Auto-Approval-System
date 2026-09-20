@@ -14,7 +14,7 @@ export const ProfileSetupPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm({
     resolver: zodResolver(profileSchema),
-    defaultValues: { stage: 'pre_registration', state: 'Madhya Pradesh', district: '', business_type: '' },
+    defaultValues: { stage: 'pre_establishment', state: 'Madhya Pradesh', district: '', business_type: '' },
   });
 
   const selectedState = watch('state');
