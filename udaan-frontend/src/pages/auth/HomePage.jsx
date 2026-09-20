@@ -67,7 +67,15 @@ export const HomePage = () => {
           <div>
             <h1 className="text-xl font-bold text-slate-900 dark:text-white tracking-tight">UDAAN</h1>
             <p className="text-[11px] text-slate-500 dark:text-slate-400 -mt-0.5">Unified Digital Approval & Assistance Network</p>
-            <button onClick={() => navigate('/about')} className="text-[11px] font-semibold text-blue-600 dark:text-blue-400 hover:underline inline-block mt-0.5 cursor-pointer">About Us</button>
+            <button 
+              onClick={(e) => {
+                e.stopPropagation();
+                navigate('/about');
+              }} 
+              className="text-[11px] font-semibold text-blue-600 dark:text-blue-400 hover:underline inline-block mt-0.5 cursor-pointer"
+            >
+              About Us
+            </button>
           </div>
         </div>
         
