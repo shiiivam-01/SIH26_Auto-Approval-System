@@ -96,115 +96,125 @@ export const AboutPage = () => {
             </p>
           </div>
 
-          {/* Flowchart Diagram - Grid Layout */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-20 relative z-10">
-            
-            {/* Step 1 */}
-            <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-800 relative hover:-translate-y-1 transition-transform duration-300">
-              <div className="flex justify-between items-start mb-4">
-                <div className="w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold shadow-md">1</div>
-                <User className="w-8 h-8 text-slate-300 dark:text-slate-700" />
-              </div>
-              <h3 className="text-lg font-bold mb-2">Sign Up / Login</h3>
-              <p className="text-sm text-slate-600 dark:text-slate-400">
-                Create your individual or business account on UDAAN securely.
-              </p>
-            </div>
-
-            {/* Step 2 */}
-            <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-800 relative hover:-translate-y-1 transition-transform duration-300">
-              <div className="flex justify-between items-start mb-4">
-                <div className="w-10 h-10 bg-emerald-600 text-white rounded-full flex items-center justify-center font-bold shadow-md">2</div>
-                <Search className="w-8 h-8 text-slate-300 dark:text-slate-700" />
-              </div>
-              <h3 className="text-lg font-bold mb-2">Find Approvals</h3>
-              <p className="text-sm text-slate-600 dark:text-slate-400">
-                Enter your business details to get a comprehensive checklist of required NOCs.
-              </p>
-            </div>
-
-            {/* Step 3 */}
-            <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-800 relative hover:-translate-y-1 transition-transform duration-300">
-              <div className="flex justify-between items-start mb-4">
-                <div className="w-10 h-10 bg-amber-500 text-white rounded-full flex items-center justify-center font-bold shadow-md">3</div>
-                <FileText className="w-8 h-8 text-slate-300 dark:text-slate-700" />
-              </div>
-              <h3 className="text-lg font-bold mb-2">Submit Application</h3>
-              <p className="text-sm text-slate-600 dark:text-slate-400">
-                Fill a single smart form, upload required documents to the vault, and pay fees.
-              </p>
-            </div>
-
-            {/* Step 4 */}
-            <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-800 relative hover:-translate-y-1 transition-transform duration-300">
-              <div className="flex justify-between items-start mb-4">
-                <div className="w-10 h-10 bg-indigo-600 text-white rounded-full flex items-center justify-center font-bold shadow-md">4</div>
-                <Settings className="w-8 h-8 text-slate-300 dark:text-slate-700" />
-              </div>
-              <h3 className="text-lg font-bold mb-2">Department Review</h3>
-              <p className="text-sm text-slate-600 dark:text-slate-400">
-                The application is instantly routed to relevant departments for verification.
-              </p>
-            </div>
-
-            {/* Step 5 (Branching) */}
-            <div className="bg-sky-50 dark:bg-sky-900/10 p-6 rounded-3xl shadow-sm border border-sky-200 dark:border-sky-800/50 relative hover:-translate-y-1 transition-transform duration-300 lg:col-span-1 row-span-2 flex flex-col">
-              <div className="flex justify-between items-start mb-4">
-                <div className="w-10 h-10 bg-sky-500 text-white rounded-full flex items-center justify-center font-bold shadow-md">5</div>
-                <ClipboardCheck className="w-8 h-8 text-sky-300 dark:text-sky-800" />
-              </div>
-              <h3 className="text-lg font-bold mb-2 text-sky-900 dark:text-sky-100">Inspection Required?</h3>
-              <p className="text-sm text-sky-700 dark:text-sky-400 mb-6">
-                The system dynamically determines if a physical site visit is needed based on rules.
-              </p>
+          {/* Interactive Flowchart Diagram */}
+          <div className="mb-20 max-w-5xl mx-auto relative z-10 hidden md:block">
+            <div className="flex items-center justify-between relative h-64">
               
-              <div className="mt-auto bg-white dark:bg-slate-900 border border-orange-200 dark:border-orange-900 p-4 rounded-2xl flex items-start gap-3 shadow-sm">
-                <div className="w-8 h-8 bg-orange-100 dark:bg-orange-900/30 rounded-full flex items-center justify-center shrink-0 mt-0.5">
-                  <HardHat className="w-4 h-4 text-orange-600 dark:text-orange-500" />
+              {/* Connecting Background Line */}
+              <div className="absolute top-1/2 left-10 right-10 h-2 bg-slate-200 dark:bg-slate-800 -translate-y-1/2 z-0 rounded-full" />
+
+              {/* Main Node 1: Applicant */}
+              <div className="relative z-10 flex flex-col items-center w-48 group">
+                <div className="w-24 h-24 bg-white dark:bg-slate-900 border-4 border-blue-500 rounded-full flex items-center justify-center shadow-lg transition-transform group-hover:scale-105">
+                  <User className="w-10 h-10 text-blue-600 dark:text-blue-400" />
                 </div>
-                <div>
-                  <p className="text-xs font-extrabold text-orange-600 dark:text-orange-500 uppercase tracking-wider mb-1">If Yes: Site Visit</p>
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-tight">An officer visits the site and submits an inspection report.</p>
+                <h3 className="mt-4 font-black text-lg text-slate-800 dark:text-slate-100 uppercase tracking-wide">Applicant</h3>
+                <p className="text-xs text-slate-500 text-center mt-1 font-medium">Registers on UDAAN</p>
+              </div>
+
+              {/* Interactive Arrow 1 */}
+              <div className="relative z-20 flex-1 flex justify-center group h-32 items-center cursor-pointer">
+                <div className="absolute w-full h-full flex items-center justify-center">
+                  <div className="w-16 h-16 bg-blue-100 dark:bg-blue-900/40 rounded-full flex items-center justify-center text-blue-600 dark:text-blue-400 shadow-sm border border-blue-200 dark:border-blue-800 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300 animate-pulse group-hover:animate-none">
+                    <ArrowRight className="w-8 h-8" />
+                  </div>
+                </div>
+                
+                {/* Hover Reveal Card 1 */}
+                <div className="absolute top-full mt-4 w-72 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-2xl p-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 translate-y-4 group-hover:translate-y-0 z-30">
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-6 h-6 bg-white dark:bg-slate-900 border-t border-l border-slate-200 dark:border-slate-700 rotate-45"></div>
+                  
+                  <div className="relative z-10 space-y-4">
+                    <div className="flex gap-3 items-start">
+                      <div className="w-8 h-8 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center shrink-0 font-bold text-sm">1</div>
+                      <div>
+                        <h4 className="font-bold text-sm">Find Required Approvals</h4>
+                        <p className="text-xs text-slate-500 mt-1">AI identifies applicable NOCs based on business details.</p>
+                      </div>
+                    </div>
+                    <hr className="border-slate-100 dark:border-slate-800" />
+                    <div className="flex gap-3 items-start">
+                      <div className="w-8 h-8 bg-amber-100 text-amber-700 rounded-full flex items-center justify-center shrink-0 font-bold text-sm">2</div>
+                      <div>
+                        <h4 className="font-bold text-sm">Submit Application</h4>
+                        <p className="text-xs text-slate-500 mt-1">Fill one smart form and upload docs to the secure vault.</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            {/* Step 6 */}
-            <div className="bg-emerald-50 dark:bg-emerald-900/10 p-6 rounded-3xl shadow-sm border border-emerald-200 dark:border-emerald-800/50 relative hover:-translate-y-1 transition-transform duration-300">
-              <div className="flex justify-between items-start mb-4">
-                <div className="w-10 h-10 bg-emerald-600 text-white rounded-full flex items-center justify-center font-bold shadow-md">6</div>
-                <CheckCircle className="w-8 h-8 text-emerald-300 dark:text-emerald-800" />
+              {/* Main Node 2: Department */}
+              <div className="relative z-10 flex flex-col items-center w-48 group">
+                <div className="w-24 h-24 bg-white dark:bg-slate-900 border-4 border-indigo-500 rounded-full flex items-center justify-center shadow-lg transition-transform group-hover:scale-105">
+                  <Building2 className="w-10 h-10 text-indigo-600 dark:text-indigo-400" />
+                </div>
+                <h3 className="mt-4 font-black text-lg text-slate-800 dark:text-slate-100 uppercase tracking-wide">Department</h3>
+                <p className="text-xs text-slate-500 text-center mt-1 font-medium">Parallel Officer Review</p>
               </div>
-              <h3 className="text-lg font-bold mb-2 text-emerald-900 dark:text-emerald-100">Approval Granted</h3>
-              <p className="text-sm text-emerald-700 dark:text-emerald-400">
-                If no inspection is needed (or once it's passed), your digital certificate is issued.
-              </p>
-            </div>
 
-            {/* Step 7 */}
-            <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-800 relative hover:-translate-y-1 transition-transform duration-300">
-              <div className="flex justify-between items-start mb-4">
-                <div className="w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold shadow-md">7</div>
-                <Bell className="w-8 h-8 text-slate-300 dark:text-slate-700" />
+              {/* Interactive Arrow 2 */}
+              <div className="relative z-20 flex-1 flex justify-center group h-32 items-center cursor-pointer">
+                <div className="absolute w-full h-full flex items-center justify-center">
+                  <div className="w-16 h-16 bg-indigo-100 dark:bg-indigo-900/40 rounded-full flex items-center justify-center text-indigo-600 dark:text-indigo-400 shadow-sm border border-indigo-200 dark:border-indigo-800 group-hover:bg-indigo-600 group-hover:text-white transition-colors duration-300 animate-pulse group-hover:animate-none">
+                    <ArrowRight className="w-8 h-8" />
+                  </div>
+                </div>
+
+                {/* Hover Reveal Card 2 */}
+                <div className="absolute top-full mt-4 w-72 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-2xl p-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 translate-y-4 group-hover:translate-y-0 z-30">
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-6 h-6 bg-white dark:bg-slate-900 border-t border-l border-slate-200 dark:border-slate-700 rotate-45"></div>
+                  
+                  <div className="relative z-10 space-y-4">
+                    <div className="flex gap-3 items-start">
+                      <div className="w-8 h-8 bg-sky-100 text-sky-700 rounded-full flex items-center justify-center shrink-0 font-bold text-sm">3</div>
+                      <div>
+                        <h4 className="font-bold text-sm">Inspection Required?</h4>
+                        <p className="text-xs text-slate-500 mt-1">If yes, an officer visits the site and submits an inspection report.</p>
+                      </div>
+                    </div>
+                    <hr className="border-slate-100 dark:border-slate-800" />
+                    <div className="flex gap-3 items-start bg-orange-50 dark:bg-orange-900/20 p-2 rounded-lg border border-orange-100 dark:border-orange-800/30">
+                      <div className="w-8 h-8 bg-orange-100 text-orange-700 rounded-full flex items-center justify-center shrink-0 font-bold text-sm">!</div>
+                      <div>
+                        <h4 className="font-bold text-sm text-orange-800 dark:text-orange-400">SLA Enforcement</h4>
+                        <p className="text-[11px] text-orange-700/80 dark:text-orange-300/80 mt-1">If officers exceed time limits, Auto-Approval engine takes over.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <h3 className="text-lg font-bold mb-2">Get Notified</h3>
-              <p className="text-sm text-slate-600 dark:text-slate-400">
-                Receive instant status updates via dashboard, email, and SMS.
-              </p>
-            </div>
 
-            {/* Step 8 */}
-            <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-800 relative hover:-translate-y-1 transition-transform duration-300">
-              <div className="flex justify-between items-start mb-4">
-                <div className="w-10 h-10 bg-emerald-600 text-white rounded-full flex items-center justify-center font-bold shadow-md">8</div>
-                <TrendingUp className="w-8 h-8 text-slate-300 dark:text-slate-700" />
+              {/* Main Node 3: Clearance */}
+              <div className="relative z-10 flex flex-col items-center w-48 group">
+                <div className="w-24 h-24 bg-white dark:bg-slate-900 border-4 border-emerald-500 rounded-full flex items-center justify-center shadow-lg transition-transform group-hover:scale-105">
+                  <CheckCircle className="w-10 h-10 text-emerald-600 dark:text-emerald-400" />
+                </div>
+                <h3 className="mt-4 font-black text-lg text-slate-800 dark:text-slate-100 uppercase tracking-wide">Clearance</h3>
+                <p className="text-xs text-slate-500 text-center mt-1 font-medium">Approval Granted & Notified</p>
               </div>
-              <h3 className="text-lg font-bold mb-2">Stay Compliant</h3>
-              <p className="text-sm text-slate-600 dark:text-slate-400">
-                Track your certificate validity, apply for renewals, and grow your business.
-              </p>
-            </div>
 
+            </div>
+            
+            <p className="text-center text-sm text-slate-500 mt-12 italic">Hover over the arrows above to see the detailed in-between processes.</p>
+          </div>
+          
+          {/* Mobile Fallback (Grid) */}
+          <div className="md:hidden grid grid-cols-1 gap-6 mb-16">
+             <div className="bg-blue-50 dark:bg-blue-900/20 p-6 rounded-2xl border border-blue-100">
+               <h3 className="font-bold text-lg mb-2 text-blue-800 dark:text-blue-300">1. Applicant Phase</h3>
+               <p className="text-sm text-slate-600 dark:text-slate-400">Registers, finds required approvals, and submits the smart application.</p>
+             </div>
+             <div className="flex justify-center text-slate-400"><ArrowRight className="rotate-90 w-6 h-6" /></div>
+             <div className="bg-indigo-50 dark:bg-indigo-900/20 p-6 rounded-2xl border border-indigo-100">
+               <h3 className="font-bold text-lg mb-2 text-indigo-800 dark:text-indigo-300">2. Department Review</h3>
+               <p className="text-sm text-slate-600 dark:text-slate-400">Officers review applications. Site inspections occur if required. SLA countdown begins.</p>
+             </div>
+             <div className="flex justify-center text-slate-400"><ArrowRight className="rotate-90 w-6 h-6" /></div>
+             <div className="bg-emerald-50 dark:bg-emerald-900/20 p-6 rounded-2xl border border-emerald-100">
+               <h3 className="font-bold text-lg mb-2 text-emerald-800 dark:text-emerald-300">3. Final Clearance</h3>
+               <p className="text-sm text-slate-600 dark:text-slate-400">Approval granted (or auto-approved). User notified to stay compliant.</p>
+             </div>
           </div>
           
           <div className="bg-white dark:bg-slate-900 p-8 md:p-12 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm text-center md:text-left flex flex-col md:flex-row gap-8 items-center">
