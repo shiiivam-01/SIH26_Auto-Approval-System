@@ -23,8 +23,12 @@ async function handleChatQuery(req, res) {
       }))
     ];
 
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 15000); // 15s timeout
+
     const response = await fetch('https://api.sarvam.ai/v1/chat/completions', {
       method: 'POST',
+      signal: controller.signal,
       headers: {
         'Content-Type': 'application/json',
         'api-subscription-key': process.env.SARVAM_API_KEY
@@ -35,6 +39,7 @@ async function handleChatQuery(req, res) {
         temperature: 0.3
       })
     });
+    clearTimeout(timeoutId);
 
     const data = await response.json();
     if (!response.ok) {
@@ -47,7 +52,14 @@ async function handleChatQuery(req, res) {
 
   } catch (error) {
     console.error('Sarvam AI Chat Error:', error);
-    res.status(500).json({ error: `Sarvam AI API Error: ${error.message}` });
+    
+    // Offline / Timeout Fallback Response
+    const isTimeout = error.name === 'AbortError';
+    const fallbackText = isTimeout
+      ? "My connection to the server timed out. I am currently experiencing high load. However, you can find the statutory document checklists directly in your 'Documents Vault'."
+      : "I'm currently unable to connect to my AI server. Please check your Dashboard or Document Vault for immediate assistance with clearances.";
+
+    res.json({ text: fallbackText });
   }
 }
 

@@ -77,8 +77,8 @@ export const ApplicantDashboard = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [dashFormData, setDashFormData] = useState({
     business_name: '',
-    business_type: 'pharmacy',
-    sector: 'pharma',
+    business_type: '',
+    sector: '',
   });
 
   useEffect(() => {
@@ -127,7 +127,11 @@ export const ApplicantDashboard = () => {
 
   if (applications.isError || checklist.isError || vault.isError) {
     const err = applications.error || checklist.error || vault.error;
-    return <ErrorState title="Could not load your dashboard" message={err?.response?.data?.error} />;
+    const status = err?.response?.status;
+    // 404 / 403 = user has no data yet, treat as empty (not a crash)
+    if (status !== 404 && status !== 403) {
+      return <ErrorState title="Could not load your dashboard" message={err?.response?.data?.error} />;
+    }
   }
 
   const isDemo = user?.email?.toLowerCase() === 'test@gmail.com';
