@@ -187,66 +187,44 @@ export const DocumentsPage = () => {
           }
         />
         <CardBody className="space-y-4">
-          {readinessTab === 'core' ? (
-            <div>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mb-2.5">
-                Primary statutory records required for your business ({profile?.business_name || 'Retail Pharmacy'}). Verified documents are automatically attached to all matching clearances.
-              </p>
-              <div className="flex flex-wrap gap-2">
-                {docs.map((d) => {
-                  const isReady = d.verified_status === 'verified';
-                  return (
-                    <Badge
-                      key={d.id || d.document_type}
-                      label={isReady ? `${d.document_type} ✓` : `${d.document_type} (Under Scrutiny ⏳)`}
-                      colorClass={
-                        isReady
-                          ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800'
-                          : 'bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-800'
-                      }
-                    />
-                  );
-                })}
-              </div>
-            </div>
-          ) : (
-            <div>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mb-2.5">
-                Statutory clauses mapped from 5 departmental approval rules (GST, Drug License, Gumasta, Fire NOC, MPPCB). Single-window reuse ensures you don't submit redundant files.
-              </p>
-              <div className="space-y-3">
-                {(statutoryTypes.length > 0 ? statutoryTypes : [
-                  'Certified Architectural Building Layout Plan', 'Fire Fighting System Layout (Hydrants & Extinguishers)',
-                  'Structural Stability Certificate', 'PAN Card of Enterprise', 'Registered Office Address Proof',
-                  'Authorized Signatory Aadhaar', 'Commercial Property Ownership Proof / Rent Deed',
-                  'PAN & Aadhaar of Business Owner', 'Signboard Photo in State Language', 'Aadhaar Card of Entrepreneur',
-                  'PAN Card of Business', 'Bank Account Details & Cancelled Cheque',
-                  'Registered Pharmacist Degree / Diploma Certificate', 'Commercial Premises Lease Deed (>10 sq.m)',
-                  'Deep Refrigerator Invoice & Temperature Log Book', 'Premises Blueprint with Storage Layout',
-                  'Bio-Medical Waste Segregation Agreement', 'Collection & Disposal Flow Protocol'
-                ]).map((t) => {
-                  const isReady = isStatutorySatisfied(t);
-                  return (
-                    <div key={t} className={`flex flex-col sm:flex-row sm:items-center justify-between p-3 border rounded-lg ${isReady ? 'bg-emerald-50/50 border-emerald-200' : 'bg-amber-50/50 border-amber-200'}`}>
-                      <div className="flex items-center gap-2">
-                        {isReady ? <Check className="w-4 h-4 text-emerald-600" /> : <AlertTriangle className="w-4 h-4 text-amber-600" />}
-                        <span className={`text-sm font-medium ${isReady ? 'text-emerald-800' : 'text-amber-800'}`}>{t}</span>
-                      </div>
-                      <div className="mt-2 sm:mt-0">
-                        {isReady ? (
-                           <span className="text-xs font-semibold px-2 py-1 bg-emerald-100 text-emerald-700 rounded-full">Uploaded ✓</span>
-                        ) : (
-                           <Button size="sm" onClick={() => { setDocType(t); setUploadOpen(true); setFormError(''); }} className="bg-blue-600 hover:bg-blue-700 text-white shadow-xs">
-                             <UploadCloud className="w-3.5 h-3.5 mr-1.5" /> Upload File
-                           </Button>
-                        )}
-                      </div>
+          <div>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mb-2.5">
+              Based on your business profile ({profile?.business_name || 'Retail Pharmacy'}), here are the exact documents you must upload. They will be automatically mapped to your statutory clearances.
+            </p>
+            <div className="space-y-3">
+              {(statutoryTypes.length > 0 ? statutoryTypes : [
+                'Certified Architectural Building Layout Plan', 'Fire Fighting System Layout (Hydrants & Extinguishers)',
+                'Structural Stability Certificate', 'PAN Card of Enterprise', 'Registered Office Address Proof',
+                'Authorized Signatory Aadhaar', 'Commercial Property Ownership Proof / Rent Deed',
+                'PAN & Aadhaar of Business Owner', 'Signboard Photo in State Language', 'Aadhaar Card of Entrepreneur',
+                'PAN Card of Business', 'Bank Account Details & Cancelled Cheque',
+                'Registered Pharmacist Degree / Diploma Certificate', 'Commercial Premises Lease Deed (>10 sq.m)',
+                'Deep Refrigerator Invoice & Temperature Log Book', 'Premises Blueprint with Storage Layout',
+                'Bio-Medical Waste Segregation Agreement', 'Collection & Disposal Flow Protocol'
+              ]).map((t) => {
+                const isReady = isStatutorySatisfied(t);
+                return (
+                  <div key={t} className={`flex flex-col sm:flex-row sm:items-center justify-between p-3 border rounded-lg ${isReady ? 'bg-emerald-50/50 dark:bg-emerald-950/30 border-emerald-200 dark:border-emerald-800' : 'bg-amber-50/50 dark:bg-amber-950/30 border-amber-200 dark:border-amber-800'}`}>
+                    <div className="flex items-center gap-2">
+                      {isReady ? <Check className="w-4 h-4 text-emerald-600 dark:text-emerald-400" /> : <AlertTriangle className="w-4 h-4 text-amber-600 dark:text-amber-400" />}
+                      <span className={`text-sm font-medium ${isReady ? 'text-emerald-800 dark:text-emerald-300' : 'text-amber-800 dark:text-amber-300'}`}>{t}</span>
                     </div>
-                  );
-                })}
-              </div>
+                    <div className="mt-2 sm:mt-0">
+                      {isReady ? (
+                         <span className="text-xs font-semibold px-2 py-1 bg-emerald-100 dark:bg-emerald-900 text-emerald-700 dark:text-emerald-300 rounded-full flex items-center gap-1">
+                           <Check className="w-3 h-3" /> Uploaded & Verified
+                         </span>
+                      ) : (
+                         <Button size="sm" onClick={() => { setDocType(t); setUploadOpen(true); setFormError(''); }} className="bg-blue-600 hover:bg-blue-700 text-white shadow-xs">
+                           <UploadCloud className="w-3.5 h-3.5 mr-1.5" /> Upload File
+                         </Button>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
             </div>
-          )}
+          </div>
 
           <div className="pt-2 border-t border-slate-100 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs text-slate-500 dark:text-slate-400">
             <span className="inline-flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400 font-medium">
