@@ -91,7 +91,7 @@ export const DocumentsPage = () => {
   const isDemo = user?.email?.toLowerCase() === 'test@gmail.com';
   const dbDocs = vault.data || [];
   const docs = isDemo 
-    ? [...PROTOTYPE_DOCUMENTS, ...dbDocs.filter(vd => !PROTOTYPE_DOCUMENTS.some(pd => pd.document_type === vd.document_type))]
+    ? [...dbDocs, ...PROTOTYPE_DOCUMENTS.filter(pd => !dbDocs.some(vd => vd.document_type === pd.document_type))]
     : dbDocs;
   
   // Core business documents from vault

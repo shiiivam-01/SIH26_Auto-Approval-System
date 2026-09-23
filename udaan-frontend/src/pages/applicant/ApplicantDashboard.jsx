@@ -137,12 +137,12 @@ export const ApplicantDashboard = () => {
   const isDemo = user?.email?.toLowerCase() === 'test@gmail.com';
   const dbApps = applications.data || [];
   const apps = isDemo 
-    ? [...PROTOTYPE_APPLICATIONS, ...dbApps.filter(va => !PROTOTYPE_APPLICATIONS.some(pa => pa.approval_name === va.approval_name))]
+    ? [...dbApps, ...PROTOTYPE_APPLICATIONS.filter(pa => !dbApps.some(va => va.approval_name === pa.approval_name))]
     : dbApps;
   
   const dbDocs = vault.data || [];
   const docs = isDemo 
-    ? [...PROTOTYPE_DOCUMENTS, ...dbDocs.filter(vd => !PROTOTYPE_DOCUMENTS.some(pd => pd.document_type === vd.document_type))]
+    ? [...dbDocs, ...PROTOTYPE_DOCUMENTS.filter(pd => !dbDocs.some(vd => vd.document_type === pd.document_type))]
     : dbDocs;
   const verifiedDocs = docs.filter((d) => d.verified_status === 'verified').length;
   const pendingReview = apps.filter((a) => !['approved', 'auto_approved', 'rejected'].includes(a.status)).length;
