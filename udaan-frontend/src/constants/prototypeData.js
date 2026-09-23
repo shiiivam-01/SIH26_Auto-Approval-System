@@ -33,7 +33,7 @@ export const PROTOTYPE_DOCUMENTS = [
   {
     id: 103,
     document_type: 'Premises Rent Deed & Layout Plan',
-    file_url: 'https://mpenagarpalika.gov.in/sample_deed.pdf',
+    file_url: '/mock-docs/architectural-layout.html',
     verified_status: 'verified',
     verified_at: '2026-09-03T14:20:00Z',
     uploaded_at: '2026-09-02T11:45:00Z',
@@ -63,12 +63,22 @@ export const PROTOTYPE_DOCUMENTS = [
   {
     id: 106,
     document_type: 'Fire Safety Layout & Architectural Drawing',
-    file_url: 'https://fire.mp.gov.in/sample_fire_drawing.pdf',
+    file_url: '/mock-docs/fire-noc.html',
     verified_status: 'pending',
     verified_at: null,
     uploaded_at: '2026-09-05T14:10:00Z',
     expiry_date: null,
     notes: 'Under scrutiny by Divisional Fire Officer for Joint Inspection verification',
+  },
+  {
+    id: 107,
+    document_type: 'Structural Stability Certificate',
+    file_url: '/mock-docs/structural-stability.html',
+    verified_status: 'verified',
+    verified_at: '2026-09-06T10:00:00Z',
+    uploaded_at: '2026-09-06T09:00:00Z',
+    expiry_date: null,
+    notes: 'Certified by Chartered Structural Engineer (NBC 2016 compliant)',
   },
 ];
 

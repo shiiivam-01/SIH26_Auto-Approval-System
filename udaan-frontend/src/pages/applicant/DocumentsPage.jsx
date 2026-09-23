@@ -480,7 +480,7 @@ export const DocumentsPage = () => {
                       {d.file_url && (
                         <button
                           type="button"
-                          onClick={() => setPreviewDoc(d)}
+                          onClick={() => window.open(d.file_url, '_blank')}
                           className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-medium text-blue-700 dark:text-blue-300 bg-blue-50 dark:bg-blue-900/30 hover:bg-blue-100 dark:hover:bg-blue-900/50 rounded-md transition-colors cursor-pointer"
                         >
                           <Eye className="w-3.5 h-3.5" />
