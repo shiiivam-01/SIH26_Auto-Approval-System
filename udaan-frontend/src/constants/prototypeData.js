@@ -13,7 +13,7 @@ export const PROTOTYPE_DOCUMENTS = [
   {
     id: 101,
     document_type: 'Aadhaar Card',
-    file_url: 'https://uidai.gov.in/sample_aadhaar.pdf',
+    file_url: '/mock-docs/aadhaar-card.html',
     verified_status: 'verified',
     verified_at: '2026-09-02T10:15:00Z',
     uploaded_at: '2026-09-01T08:30:00Z',
@@ -23,7 +23,7 @@ export const PROTOTYPE_DOCUMENTS = [
   {
     id: 102,
     document_type: 'PAN Card',
-    file_url: 'https://incometaxindia.gov.in/sample_pan.pdf',
+    file_url: '/mock-docs/pan-card.html',
     verified_status: 'verified',
     verified_at: '2026-09-02T10:18:00Z',
     uploaded_at: '2026-09-01T08:32:00Z',
@@ -43,7 +43,7 @@ export const PROTOTYPE_DOCUMENTS = [
   {
     id: 104,
     document_type: 'Registered Pharmacist Registration Certificate',
-    file_url: 'https://cdsco.gov.in/sample_pharmacist_reg.pdf',
+    file_url: '/mock-docs/pharmacist-reg.html',
     verified_status: 'verified',
     verified_at: '2026-09-03T16:05:00Z',
     uploaded_at: '2026-09-02T12:00:00Z',
@@ -53,7 +53,7 @@ export const PROTOTYPE_DOCUMENTS = [
   {
     id: 105,
     document_type: 'Refrigerator Invoice & Cold Chain Calibration Log',
-    file_url: 'https://cdsco.gov.in/sample_cold_chain.pdf',
+    file_url: '/mock-docs/cold-chain.html',
     verified_status: 'verified',
     verified_at: '2026-09-04T09:30:00Z',
     uploaded_at: '2026-09-03T15:20:00Z',
