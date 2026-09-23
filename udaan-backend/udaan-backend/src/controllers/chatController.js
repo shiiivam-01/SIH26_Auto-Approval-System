@@ -24,7 +24,7 @@ async function handleChatQuery(req, res) {
     ];
 
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 15000); // 15s timeout
+    const timeoutId = setTimeout(() => controller.abort(), 20000); // 20s timeout
 
     const response = await fetch('https://api.sarvam.ai/v1/chat/completions', {
       method: 'POST',
@@ -34,7 +34,7 @@ async function handleChatQuery(req, res) {
         'api-subscription-key': process.env.SARVAM_API_KEY
       },
       body: JSON.stringify({
-        model: 'sarvam-105b',
+        model: 'sarvam-105b-conversations',
         messages: apiMessages,
         temperature: 0.3
       })
