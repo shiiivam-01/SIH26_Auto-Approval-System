@@ -267,14 +267,22 @@ export const ApplicantChatbot = ({ applicantName = 'Entrepreneur' }) => {
           onClick={() => {
             toast.success("Voice assistant connecting...");
           }}
-          className="w-11 h-11 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white flex items-center justify-center shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer focus:outline-none focus:ring-4 focus:ring-emerald-500/20 relative"
+          className="w-12 h-12 rounded-full flex items-center justify-center shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer focus:outline-none relative group overflow-hidden"
           title="Sarvam Voice Assistant"
         >
-          <Mic className="w-5 h-5" />
-          <span className="absolute -top-0.5 -right-0.5 flex h-2.5 w-2.5">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-200 opacity-75" />
-            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-white border-2 border-emerald-500" />
+          {/* Animated Siri Glow Background */}
+          <div className="absolute inset-0 bg-[conic-gradient(from_0deg,#ff2a85,#8a2be2,#4169e1,#00ffff,#ff2a85)] animate-siri-glow opacity-90"></div>
+          
+          {/* Inner core to give it depth and contrast for the icon */}
+          <div className="absolute inset-0.5 rounded-full bg-slate-900/40 backdrop-blur-sm z-0"></div>
+          
+          {/* Active indicator dot */}
+          <span className="absolute -top-0 -right-0 flex h-2.5 w-2.5 z-20">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-pink-300 opacity-75" />
+            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-pink-500 border border-white dark:border-slate-900" />
           </span>
+
+          <Mic className="w-5 h-5 text-white z-10 relative drop-shadow-md group-hover:scale-110 transition-transform duration-200" />
         </button>
 
         {/* CHATBOT FAB TRIGGER */}
