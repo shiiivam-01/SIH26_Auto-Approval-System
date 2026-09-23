@@ -89,7 +89,10 @@ export const DocumentsPage = () => {
   if (vault.isError) return <ErrorState title="Could not load your vault" message={vault.error?.response?.data?.error} onRetry={() => vault.refetch()} />;
 
   const isDemo = user?.email?.toLowerCase() === 'test@gmail.com';
-  const docs = (vault.data && vault.data.length > 0) ? vault.data : (isDemo ? PROTOTYPE_DOCUMENTS : []);
+  const dbDocs = vault.data || [];
+  const docs = isDemo 
+    ? [...PROTOTYPE_DOCUMENTS, ...dbDocs.filter(vd => !PROTOTYPE_DOCUMENTS.some(pd => pd.document_type === vd.document_type))]
+    : dbDocs;
   
   // Core business documents from vault
   const coreDocs = docs.map((d) => d.document_type);
