@@ -4,6 +4,7 @@ import { Sidebar } from './Sidebar';
 import { Header } from './Header';
 import { useAuth } from '../../context/AuthContext';
 import { ApplicantChatbot } from '../applicant/ApplicantChatbot';
+import { ApplicantPrefetcher } from '../applicant/ApplicantPrefetcher';
 
 export const MainLayout = () => {
   const { user } = useAuth();
@@ -28,7 +29,10 @@ export const MainLayout = () => {
 
       {/* Persistent Floating AI Chatbot for Applicants */}
       {user?.role === 'applicant' && (
-        <ApplicantChatbot applicantName={user?.name || 'Entrepreneur'} />
+        <>
+          <ApplicantChatbot applicantName={user?.name || 'Entrepreneur'} />
+          <ApplicantPrefetcher />
+        </>
       )}
     </div>
   );
