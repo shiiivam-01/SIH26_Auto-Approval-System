@@ -33,19 +33,10 @@ export const ProfileSetupPage = () => {
     setValue('district', '');
   }, [selectedState, setValue]);
 
-  const handleNext = async () => {
-    // Basic validation based on step
-    let fieldsToValidate = [];
-    if (step === 1) fieldsToValidate = ['business_name', 'business_type', 'stage'];
-    if (step === 2) fieldsToValidate = ['department'];
-    if (step === 3) fieldsToValidate = ['investment_amount', 'employee_count'];
-    if (step === 4) fieldsToValidate = ['state', 'district'];
-    // Step 5 has mostly optional fields
-
-    const isValid = await trigger(fieldsToValidate);
-    if (isValid) {
-      setStep(prev => Math.min(prev + 1, totalSteps));
-    }
+  const handleNext = () => {
+    // Allow progression without strict validation per step
+    // Final validation happens on Complete Profile (onSubmit)
+    setStep(prev => Math.min(prev + 1, totalSteps));
   };
 
   const handleBack = () => {
