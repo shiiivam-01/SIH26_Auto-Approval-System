@@ -139,9 +139,31 @@ export const ProfileSetupPage = () => {
           {step === 2 && (
             <div className="space-y-4 animate-fade-in">
               <Select label="Department" required placeholder="Select department" error={errors.department?.message} {...register('department')}>
+                <option value="Municipal Corporation / Urban Local Body">Municipal Corporation / Urban Local Body</option>
+                <option value="District Industries Centre (DIC)">District Industries Centre (DIC)</option>
+                <option value="Industries Department">Industries Department</option>
+                <option value="Pollution Control Board">Pollution Control Board</option>
+                <option value="Fire & Emergency Services">Fire & Emergency Services</option>
                 <option value="Food Safety and Standards Authority of India (FSSAI)">Food Safety and Standards Authority of India (FSSAI)</option>
+                <option value="Factories & Boilers Department">Factories & Boilers Department</option>
+                <option value="Labour Department">Labour Department</option>
                 <option value="State FDA & Central Drugs Standard Control Organisation (CDSCO)">State FDA & Central Drugs Standard Control Organisation (CDSCO)</option>
                 <option value="Urban Administration & Municipal Corporation">Urban Administration & Municipal Corporation</option>
+                <option value="Town & Country Planning Department">Town & Country Planning Department</option>
+                <option value="Revenue / Land Records Department">Revenue / Land Records Department</option>
+                <option value="Electricity Distribution Department">Electricity Distribution Department</option>
+                <option value="Water Resources / Water Supply Department">Water Resources / Water Supply Department</option>
+                <option value="Environment Department">Environment Department</option>
+                <option value="Legal Metrology Department">Legal Metrology Department</option>
+                <option value="Weights & Measures Department">Weights & Measures Department</option>
+                <option value="Agriculture Department">Agriculture Department</option>
+                <option value="Animal Husbandry & Dairy Department">Animal Husbandry & Dairy Department</option>
+                <option value="Tourism Department">Tourism Department</option>
+                <option value="Excise Department">Excise Department</option>
+                <option value="Transport Department">Transport Department</option>
+                <option value="Mining & Geology Department">Mining & Geology Department</option>
+                <option value="Registrar of Companies (MCA)">Registrar of Companies (MCA)</option>
+                <option value="MSME / Small Industries Department">MSME / Small Industries Department</option>
               </Select>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
