@@ -175,6 +175,16 @@ async function updateProfile(req, res) {
       investment_amount,
       employee_count,
       stage,
+      // NEW: Business Details
+      date_of_establishment, registration_number, udyam_registration_number,
+      // NEW: Business Activity
+      sub_sector, business_activity, products_services, is_export_business,
+      // NEW: Financial Details
+      enterprise_type, annual_turnover, existing_loan, required_investment_amount,
+      // NEW: Business Location
+      city_town_village, pin_code, area_type, is_sez,
+      // NEW: Owner Details
+      owner_age, owner_gender, owner_nationality, employment_status, family_income, social_category, minority_status, disability_status
     } = req.body;
 
     // Synchronize User table name so UI header immediately reflects updated applicant name
@@ -192,40 +202,65 @@ async function updateProfile(req, res) {
       targetSector = aligned.sector;
     }
 
+    const updates = {
+      applicant_name: applicant_name !== undefined ? applicant_name : undefined,
+      date_of_birth: date_of_birth !== undefined ? date_of_birth : undefined,
+      phone_number: phone_number !== undefined ? phone_number : undefined,
+      aadhaar_number: aadhaar_number !== undefined ? aadhaar_number : undefined,
+      pan_number: pan_number !== undefined ? pan_number : undefined,
+      business_name: business_name !== undefined ? business_name : undefined,
+      business_type: targetType !== undefined ? targetType : undefined,
+      sector: targetSector !== undefined ? targetSector : undefined,
+      nic_code: nic_code !== undefined ? nic_code : undefined,
+      state: state !== undefined ? state : undefined,
+      district: district !== undefined ? district : undefined,
+      investment_amount: investment_amount !== undefined ? Number(investment_amount) : undefined,
+      employee_count: employee_count !== undefined ? Number(employee_count) : undefined,
+      stage: stage !== undefined ? stage : undefined,
+      // NEW FIELDS
+      date_of_establishment: date_of_establishment !== undefined ? date_of_establishment : undefined,
+      registration_number: registration_number !== undefined ? registration_number : undefined,
+      udyam_registration_number: udyam_registration_number !== undefined ? udyam_registration_number : undefined,
+      sub_sector: sub_sector !== undefined ? sub_sector : undefined,
+      business_activity: business_activity !== undefined ? business_activity : undefined,
+      products_services: products_services !== undefined ? products_services : undefined,
+      is_export_business: is_export_business !== undefined ? is_export_business : undefined,
+      enterprise_type: enterprise_type !== undefined ? enterprise_type : undefined,
+      annual_turnover: annual_turnover !== undefined ? Number(annual_turnover) : undefined,
+      existing_loan: existing_loan !== undefined ? existing_loan : undefined,
+      required_investment_amount: required_investment_amount !== undefined ? Number(required_investment_amount) : undefined,
+      city_town_village: city_town_village !== undefined ? city_town_village : undefined,
+      pin_code: pin_code !== undefined ? pin_code : undefined,
+      area_type: area_type !== undefined ? area_type : undefined,
+      is_sez: is_sez !== undefined ? is_sez : undefined,
+      owner_age: owner_age !== undefined ? Number(owner_age) : undefined,
+      owner_gender: owner_gender !== undefined ? owner_gender : undefined,
+      owner_nationality: owner_nationality !== undefined ? owner_nationality : undefined,
+      employment_status: employment_status !== undefined ? employment_status : undefined,
+      family_income: family_income !== undefined ? Number(family_income) : undefined,
+      social_category: social_category !== undefined ? social_category : undefined,
+      minority_status: minority_status !== undefined ? minority_status : undefined,
+      disability_status: disability_status !== undefined ? disability_status : undefined,
+    };
+
+    // Remove undefined keys
+    Object.keys(updates).forEach(key => updates[key] === undefined && delete updates[key]);
+
     if (!profile) {
       profile = await ApplicantProfile.create({
         user_id: req.user.id,
         applicant_name: applicant_name || user.name,
-        date_of_birth: date_of_birth || null,
-        phone_number: phone_number || null,
-        aadhaar_number: aadhaar_number || null,
-        pan_number: pan_number || null,
         business_name: business_name || 'My Business',
         business_type: targetType || 'food_processing',
         sector: targetSector || 'food_processing',
-        nic_code: nic_code || null,
         state: state || 'Madhya Pradesh',
-        district: district || null,
         investment_amount: investment_amount != null ? Number(investment_amount) : 10,
         employee_count: employee_count != null ? Number(employee_count) : 5,
         stage: stage || 'pre_establishment',
+        ...updates
       });
     } else {
-      if (applicant_name !== undefined) profile.applicant_name = applicant_name;
-      if (date_of_birth !== undefined) profile.date_of_birth = date_of_birth;
-      if (phone_number !== undefined) profile.phone_number = phone_number;
-      if (aadhaar_number !== undefined) profile.aadhaar_number = aadhaar_number;
-      if (pan_number !== undefined) profile.pan_number = pan_number;
-      if (business_name !== undefined) profile.business_name = business_name;
-      if (targetType !== undefined) profile.business_type = targetType;
-      if (targetSector !== undefined) profile.sector = targetSector;
-      if (nic_code !== undefined) profile.nic_code = nic_code;
-      if (state !== undefined) profile.state = state;
-      if (district !== undefined) profile.district = district;
-      if (investment_amount !== undefined) profile.investment_amount = Number(investment_amount);
-      if (employee_count !== undefined) profile.employee_count = Number(employee_count);
-      if (stage !== undefined) profile.stage = stage;
-      await profile.save();
+      await profile.update(updates);
     }
 
     const result = profile.toJSON();
