@@ -68,25 +68,56 @@ async function uploadDocument(req, res) {
       if (!profile) return res.status(404).json({ error: 'Applicant profile not found' });
     }
 
-    // Security: Applicants cannot self-verify documents. Any applicant-supplied
-    // verified_status is ignored, ensuring all applicant uploads default to 'pending'.
     let verifiedStatus = 'pending';
+    let aiValidation = null;
+
     if (['officer', 'admin'].includes(req.user.role) && req.body.verified_status) {
-      if (['pending', 'verified', 'rejected'].includes(req.body.verified_status)) {
+      if (['pending', 'verified', 'rejected', 'NEEDS_REVIEW', 'WRONG_DOCUMENT', 'INVALID_FILE', 'VERIFIED'].includes(req.body.verified_status)) {
         verifiedStatus = req.body.verified_status;
+      }
+    } else {
+      // Applicant uploading a document - trigger AI Pre-Validation
+      const { processDocument } = require('../services/document/documentValidationService');
+      const requiredDocumentType = req.body.requiredDocumentType || document_type; // the expected enum
+
+      try {
+        // Convert data URL to buffer
+        const matches = file_url.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
+        if (matches && matches.length === 3) {
+          const mimeType = matches[1];
+          const buffer = Buffer.from(matches[2], 'base64');
+          
+          aiValidation = await processDocument(buffer, mimeType, requiredDocumentType);
+          
+          if (aiValidation) {
+            verifiedStatus = aiValidation.status; // e.g. VERIFIED, WRONG_DOCUMENT, NEEDS_REVIEW
+          }
+        }
+      } catch (aiErr) {
+        console.error('AI Document Pre-validation failed:', aiErr);
       }
     }
 
     // Store data encrypted at rest using AES-256-GCM
     const encryptedUrl = encryptData(file_url);
 
-    const doc = await DocumentVault.create({
+    const docData = {
       applicant_id,
       document_type: document_type.trim(),
       file_url: encryptedUrl,
       expiry_date: expiry_date || null,
       verified_status: verifiedStatus,
-    });
+    };
+
+    if (aiValidation) {
+      docData.required_document_type = aiValidation.requiredType;
+      docData.detected_document_type = aiValidation.detectedType;
+      docData.confidence_score = aiValidation.confidence;
+      docData.quality_status = aiValidation.quality;
+      docData.validation_message = aiValidation.message;
+    }
+
+    const doc = await DocumentVault.create(docData);
 
     const responseDoc = doc.toJSON();
     responseDoc.file_url = decryptData(responseDoc.file_url);

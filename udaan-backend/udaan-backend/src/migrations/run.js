@@ -2,6 +2,7 @@ const { Sequelize } = require('sequelize');
 const migration01 = require('./01_add_inspection_completed_at');
 const migration02 = require('./02_add_applicant_personal_columns');
 const migration03 = require('./03_add_scheme_matching_columns');
+const migration04 = require('./04_add_ai_document_columns');
 
 async function runMigrations(sequelizeInstance) {
   let sequelize = sequelizeInstance;
@@ -17,6 +18,7 @@ async function runMigrations(sequelizeInstance) {
     await migration01.up(queryInterface, Sequelize);
     await migration02.up(queryInterface, Sequelize);
     await migration03.up(queryInterface, Sequelize);
+    await migration04.up(queryInterface, Sequelize);
     console.log('[Migration] Migration complete');
   } catch (error) {
     console.error('[Migration] Migration failed');

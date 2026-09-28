@@ -23,6 +23,10 @@ export const DOCUMENT_STATUS = {
   pending: { label: 'Pending Verification', color: 'bg-amber-50 text-amber-700 border-amber-200', icon: 'hourglass' },
   verified: { label: 'Verified', color: 'bg-green-50 text-green-700 border-green-200', icon: 'badgecheck' },
   rejected: { label: 'Rejected', color: 'bg-red-50 text-red-700 border-red-200', icon: 'filex' },
+  NEEDS_REVIEW: { label: 'AI: Needs Review', color: 'bg-orange-50 text-orange-700 border-orange-200', icon: 'hourglass' },
+  WRONG_DOCUMENT: { label: 'AI: Wrong Document', color: 'bg-red-50 text-red-700 border-red-200', icon: 'filex' },
+  INVALID_FILE: { label: 'AI: Invalid File', color: 'bg-red-50 text-red-700 border-red-200', icon: 'filex' },
+  VERIFIED: { label: 'AI: Verified', color: 'bg-green-50 text-green-700 border-green-200', icon: 'badgecheck' },
 };
 
 export const INSPECTION_STATUS = {

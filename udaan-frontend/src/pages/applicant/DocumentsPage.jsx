@@ -12,12 +12,13 @@ import { useVault, useChecklist } from '../../hooks/useApplicantData';
 import { uploadDocument } from '../../api/documentApi';
 import { updateProfile } from '../../api/applicantApi';
 import { extractApiError } from '../../utils/errors';
+import { mapDisplayToRegistry } from '../../constants/documentRegistry';
 import { Badge, Button, Card, CardBody, CardHeader, Input, PageHeader, Modal, EmptyState, ErrorState, SkeletonRows, FileUpload } from '../../components/common/ui';
 import { DOCUMENT_STATUS } from '../../constants/statusCatalog';
 import { GOV_DEPARTMENT_DIRECTORIES, getIndustryDocumentList } from '../../constants/govDocumentDirectory';
 import { PROTOTYPE_DOCUMENTS } from '../../constants/prototypeData';
 
-const docStatusIcon = { pending: Clock, verified: BadgeCheck, rejected: FileX };
+const docStatusIcon = { pending: Clock, verified: BadgeCheck, rejected: FileX, NEEDS_REVIEW: AlertTriangle, WRONG_DOCUMENT: FileX, INVALID_FILE: FileX, VERIFIED: BadgeCheck };
 
 // Display-only expiry chips — backend re-validates authoritatively at submit.
 const expiryChip = (d) => {
@@ -49,9 +50,29 @@ export const DocumentsPage = () => {
 
   const upload = useMutation({
     mutationFn: (payload) => uploadDocument(payload),
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['vault', applicantId] });
-      toast.success('Document registered in vault — pending officer verification');
+      
+      if (data.verified_status === 'WRONG_DOCUMENT') {
+        toast.error(`❌ Wrong Document: ${data.validation_message || 'Please upload the correct document.'}`, { duration: 6000 });
+      } else if (data.verified_status === 'INVALID_FILE') {
+        toast.error(`❌ Invalid File: ${data.validation_message || 'File could not be read.'}`, { duration: 6000 });
+      } else if (data.verified_status === 'NEEDS_REVIEW') {
+        toast.custom((t) => (
+          <div className={`${t.visible ? 'animate-enter' : 'animate-leave'} max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5 p-4 border-l-4 border-amber-500`}>
+            <div className="flex-1 w-0 p-1">
+              <p className="text-sm font-bold text-slate-900">⚠ Needs Review</p>
+              <p className="mt-1 text-xs text-slate-500">{data.validation_message}</p>
+              <p className="mt-1 text-xs font-semibold text-amber-600">Confidence: {Math.round(data.confidence_score * 100)}%</p>
+            </div>
+          </div>
+        ), { duration: 6000 });
+      } else if (data.verified_status === 'VERIFIED') {
+        toast.success(`✓ Document Type Verified (AI Confidence: ${Math.round(data.confidence_score * 100)}%)`, { duration: 5000 });
+      } else {
+        toast.success('Document registered in vault — pending officer verification');
+      }
+      
       setUploadOpen(false);
       setSelectedFile(null); setDocType(''); setExpiry(''); setFormError('');
     },
@@ -76,11 +97,14 @@ export const DocumentsPage = () => {
       return;
     }
 
+    const requiredDocType = mapDisplayToRegistry(docType.trim()) || 'UNKNOWN';
+
     upload.mutate({
       applicant_id: applicantId,
       document_type: docType.trim(),
       file_url: selectedFile.dataUrl,
       expiry_date: expiry || undefined,
+      requiredDocumentType: requiredDocType
     });
   };
 
@@ -96,7 +120,7 @@ export const DocumentsPage = () => {
   
   // Core business documents from vault
   const coreDocs = docs.map((d) => d.document_type);
-  const readyCoreDocs = docs.filter((d) => d.verified_status === 'verified' && (!d.expiry_date || new Date(d.expiry_date) >= new Date())).map((d) => d.document_type);
+  const readyCoreDocs = docs.filter((d) => (d.verified_status === 'verified' || d.verified_status === 'VERIFIED') && (!d.expiry_date || new Date(d.expiry_date) >= new Date())).map((d) => d.document_type);
 
   // All statutory clearance rule requirements from backend
   const statutoryTypes = [...new Set((checklist.data?.checklist || []).flatMap((c) => c.required_documents))];
@@ -106,7 +130,7 @@ export const DocumentsPage = () => {
   const isStatutorySatisfied = (reqName) => {
     const r = reqName.toLowerCase().trim();
     return docs.some((d) => {
-      if (d.verified_status !== 'verified') return false;
+      if (d.verified_status !== 'verified' && d.verified_status !== 'VERIFIED') return false;
       if (d.expiry_date && new Date(d.expiry_date) < new Date()) return false;
       const doc = d.document_type.toLowerCase().trim();
 
@@ -465,13 +489,21 @@ export const DocumentsPage = () => {
                 const st = DOCUMENT_STATUS[d.verified_status];
                 const Icon = docStatusIcon[d.verified_status] || FileText;
                 return (
-                  <li key={d.id} className="py-3 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+                  <li key={d.id} className="py-3 flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-4">
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium text-slate-900 flex items-center gap-2">
                         <FileText className="w-4 h-4 text-slate-400 flex-shrink-0" aria-hidden="true" />
                         {d.document_type}
                       </p>
-                      <div className="flex items-center gap-2 text-xs text-slate-400 mt-0.5">
+                      
+                      {d.validation_message && d.verified_status !== 'verified' && d.verified_status !== 'pending' && (
+                        <p className={`text-xs mt-1 font-medium ${d.verified_status === 'VERIFIED' ? 'text-emerald-600' : d.verified_status === 'WRONG_DOCUMENT' || d.verified_status === 'INVALID_FILE' || d.verified_status === 'rejected' ? 'text-red-600' : 'text-amber-600'}`}>
+                          {d.validation_message}
+                          {d.confidence_score && ` (Confidence: ${Math.round(d.confidence_score * 100)}%)`}
+                        </p>
+                      )}
+
+                      <div className="flex items-center gap-2 text-xs text-slate-400 mt-1.5">
                         <span>Uploaded {new Date(d.uploaded_at).toLocaleDateString()}</span>
                         <span>•</span>
                         <span className="inline-flex items-center gap-1 text-emerald-600 dark:text-emerald-400 font-medium">
