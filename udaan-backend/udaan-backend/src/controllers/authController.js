@@ -218,9 +218,10 @@ async function googleOAuthLogin(req, res) {
         }
         payload = await response.json();
 
-        // If GOOGLE_CLIENT_ID is configured, verify audience match
-        if (process.env.GOOGLE_CLIENT_ID && payload.aud !== process.env.GOOGLE_CLIENT_ID) {
-          console.error(`[OAuth Mismatch Debug] Backend expects: "${process.env.GOOGLE_CLIENT_ID}", but Frontend sent token for: "${payload.aud}"`);
+        // If GOOGLE_CLIENT_ID is configured, verify audience match (use trim() to ignore accidental newlines/spaces)
+        const expectedClientId = process.env.GOOGLE_CLIENT_ID ? process.env.GOOGLE_CLIENT_ID.trim() : null;
+        if (expectedClientId && payload.aud !== expectedClientId) {
+          console.error(`[OAuth Mismatch Debug] Backend expects: "${expectedClientId}", but Frontend sent token for: "${payload.aud}"`);
           return res.status(401).json({ error: 'Google OAuth token client_id mismatch' });
         }
       }
