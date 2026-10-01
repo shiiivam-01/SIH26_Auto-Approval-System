@@ -2,6 +2,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const { User } = require('../models');
+const { sendRegistrationEmail } = require('../services/emailService');
 
 // Hardcoded privileged accounts — ONLY these emails can access officer/inspector/admin roles
 const PRIVILEGED_ACCOUNTS = {
@@ -96,6 +97,9 @@ async function register(req, res) {
       role: 'applicant',
       department: null,
     });
+
+    // Send registration email asynchronously (do not await so it doesn't block response)
+    sendRegistrationEmail(user, null).catch(err => console.error("Email error:", err));
 
     const token = jwt.sign(
       { id: user.id, role: user.role, department: user.department || null },
@@ -252,6 +256,9 @@ async function googleOAuthLogin(req, res) {
         role: 'applicant', // Default role for new signups
         department: null,
       });
+
+      // Send registration email asynchronously (do not await)
+      sendRegistrationEmail(user, null).catch(err => console.error("Email error:", err));
     }
 
     // VERIFY PASSWORD: Existing user must provide correct password
