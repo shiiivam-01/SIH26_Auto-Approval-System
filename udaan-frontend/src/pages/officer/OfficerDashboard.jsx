@@ -229,9 +229,9 @@ export const OfficerDashboard = () => {
             queue.map((item) => (
               <div key={item.id} className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 flex items-center justify-between">
                 <div>
-                  <h4 className="font-bold text-slate-900 dark:text-white">{item.businessName} (Profile #{item.applicant_id})</h4>
+                  <h4 className="font-bold text-slate-900 dark:text-white">{String(item.businessName)} (Profile #{String(item.applicant_id)})</h4>
                   <p className="text-sm text-slate-500 dark:text-slate-400">
-                    <span className="font-medium">{item.approval_name}</span> · Status: {item.status.replace('_', ' ')}
+                    <span className="font-medium">{String(item.approval_name)}</span> · Status: {String(item.status).replace('_', ' ')}
                   </p>
                 </div>
                 <div className="flex items-center gap-4">
@@ -240,7 +240,7 @@ export const OfficerDashboard = () => {
                   </Badge>
                   <Button 
                     size="sm" 
-                    onClick={() => navigate('/officer/reviews', { state: { applicantId: item.applicant_id } })}
+                    onClick={() => navigate('/officer/reviews', { state: { applicantId: String(item.applicant_id) } })}
                   >
                     Review Application
                   </Button>
