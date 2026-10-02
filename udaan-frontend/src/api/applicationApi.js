@@ -10,3 +10,6 @@ export const getApplications = (applicantId) => api.get(`/applications/${applica
 // PATCH /api/applications/:applicationId/decide — officer/admin
 export const decideApplication = (applicationId, decision) =>
   api.patch(`/applications/${applicationId}/decide`, { decision }).then((r) => r.data);
+
+// GET /api/applications/queue — get pending queue for officer's department
+export const getDepartmentQueue = () => api.get('/applications/queue').then((r) => r.data);

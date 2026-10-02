@@ -279,4 +279,49 @@ async function decideApplication(req, res) {
   }
 }
 
-module.exports = { submitApplication, getApplicationsForApplicant, decideApplication };
+// Officer Worklist: fetch pending applications for their department
+async function getDepartmentQueue(req, res) {
+  try {
+    const { department } = req.user;
+    
+    // Admins can see all if they hit this, but officers only their dept
+    const whereClause = {
+      status: { [Op.in]: ['submitted', 'pending_review', 'pending_inspection'] }
+    };
+    
+    const includeRule = {
+      model: ApprovalRule,
+      attributes: ['approval_name', 'department']
+    };
+    
+    if (req.user.role === 'officer' && department) {
+      includeRule.where = { department };
+    }
+
+    const queue = await Application.findAll({
+      where: whereClause,
+      include: [
+        includeRule,
+        { model: ApplicantProfile, attributes: ['id', 'business_name', 'sector', 'state'] }
+      ],
+      order: [['submitted_at', 'ASC']],
+      limit: 50 // Avoid massive payloads
+    });
+
+    const formattedQueue = queue.map(a => ({
+      id: a.id,
+      applicant_id: a.applicant_id,
+      businessName: a.ApplicantProfile?.business_name || 'Unknown Business',
+      approval_name: a.ApprovalRule?.approval_name || 'Unknown',
+      department: a.ApprovalRule?.department || 'Unknown',
+      status: a.status,
+      sla_deadline: a.sla_deadline
+    }));
+
+    res.json(formattedQueue);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+}
+
+module.exports = { submitApplication, getApplicationsForApplicant, decideApplication, getDepartmentQueue };

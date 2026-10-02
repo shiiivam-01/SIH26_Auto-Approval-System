@@ -10,6 +10,7 @@ import {
 } from 'recharts';
 import { useAuth } from '../../context/AuthContext';
 import { getOverviewAnalytics, getSlaAnalytics } from '../../api/analyticsApi';
+import { getDepartmentQueue } from '../../api/applicationApi';
 import { Card, CardBody, CardHeader, PageHeader, SkeletonCard, EmptyState, Badge, Button } from '../../components/common/ui';
 
 const KpiCard = ({ icon: Icon, label, value, subtext, iconBg = 'bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 border-blue-100 dark:border-blue-900/50' }) => (
@@ -56,10 +57,16 @@ export const OfficerDashboard = () => {
     );
   }
 
+  const queueQuery = useQuery({
+    queryKey: ['officer-dash-queue'],
+    queryFn: () => getDepartmentQueue(),
+    retry: false,
+  });
+
   const od = overview.data?.data || {};
   const sd = sla.data?.data || {};
   const slaState = sd.sla_state || {};
-  const queue = [];
+  const queue = queueQuery.data || [];
 
   // Chart Data preparation
   const appStatusData = [
@@ -220,8 +227,24 @@ export const OfficerDashboard = () => {
         <CardBody className="space-y-4">
           {queue.length > 0 ? (
             queue.map((item) => (
-              <div key={item.id} className="p-4 rounded-xl border border-slate-200 dark:border-slate-800">
-                <p className="font-bold">{item.businessName}</p>
+              <div key={item.id} className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                <div>
+                  <h4 className="font-bold text-slate-900 dark:text-white">{item.businessName} (Profile #{item.applicant_id})</h4>
+                  <p className="text-sm text-slate-500 dark:text-slate-400">
+                    <span className="font-medium">{item.approval_name}</span> · Status: {item.status.replace('_', ' ')}
+                  </p>
+                </div>
+                <div className="flex items-center gap-4">
+                  <Badge variant={new Date(item.sla_deadline) < new Date() ? 'danger' : 'warning'}>
+                    SLA: {new Date(item.sla_deadline).toLocaleDateString()}
+                  </Badge>
+                  <Button 
+                    size="sm" 
+                    onClick={() => navigate('/officer/reviews', { state: { applicantId: item.applicant_id } })}
+                  >
+                    Review Application
+                  </Button>
+                </div>
               </div>
             ))
           ) : (

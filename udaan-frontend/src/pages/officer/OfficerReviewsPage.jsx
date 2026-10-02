@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useLocation } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import {
   Search, BadgeCheck, FileX, CheckCircle2, XCircle, FileText,
@@ -22,8 +23,11 @@ const presetApplicants = [
 ];
 
 export const OfficerReviewsPage = () => {
-  const [applicantId, setApplicantId] = useState('1');
-  const [searchId, setSearchId] = useState('1');
+  const location = useLocation();
+  const defaultId = location.state?.applicantId ? String(location.state.applicantId) : '1';
+  
+  const [applicantId, setApplicantId] = useState(defaultId);
+  const [searchId, setSearchId] = useState(defaultId);
   const queryClient = useQueryClient();
 
   const checklist = useQuery({ queryKey: ['checklist', searchId], queryFn: () => getChecklist(searchId), enabled: !!searchId, retry: noRetry, refetchInterval: 5000 });
