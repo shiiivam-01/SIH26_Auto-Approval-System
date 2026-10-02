@@ -43,6 +43,21 @@ function alignSectorAndType(business_type, sector) {
   };
 }
 
+function calculateEnterpriseType(investmentLakhs, turnoverLakhs) {
+  const inv = parseFloat(investmentLakhs) || 0;
+  const turn = parseFloat(turnoverLakhs) || 0;
+  
+  // MSME Classification Guidelines (Values in Lakhs):
+  // Micro: Investment <= 100 Lakhs (1Cr) AND Turnover <= 500 Lakhs (5Cr)
+  if (inv <= 100 && turn <= 500) return 'Micro';
+  // Small: Investment <= 1000 Lakhs (10Cr) AND Turnover <= 5000 Lakhs (50Cr)
+  if (inv <= 1000 && turn <= 5000) return 'Small';
+  // Medium: Investment <= 5000 Lakhs (50Cr) AND Turnover <= 25000 Lakhs (250Cr)
+  if (inv <= 5000 && turn <= 25000) return 'Medium';
+  
+  return 'Large';
+}
+
 async function createProfile(req, res) {
   try {
     const {
@@ -105,7 +120,7 @@ async function createProfile(req, res) {
       business_activity: business_activity || undefined,
       products_services: products_services || undefined,
       is_export_business: is_export_business || undefined,
-      enterprise_type: enterprise_type || undefined,
+      enterprise_type: enterprise_type || calculateEnterpriseType(investment_amount, annual_turnover),
       annual_turnover: annual_turnover !== undefined ? Number(annual_turnover) : undefined,
       existing_loan: existing_loan || undefined,
       required_investment_amount: required_investment_amount !== undefined ? Number(required_investment_amount) : undefined,
@@ -260,7 +275,10 @@ async function updateProfile(req, res) {
       business_activity: business_activity !== undefined ? business_activity : undefined,
       products_services: products_services !== undefined ? products_services : undefined,
       is_export_business: is_export_business !== undefined ? is_export_business : undefined,
-      enterprise_type: enterprise_type !== undefined ? enterprise_type : undefined,
+      enterprise_type: enterprise_type !== undefined ? enterprise_type : calculateEnterpriseType(
+        investment_amount !== undefined ? investment_amount : profile?.investment_amount,
+        annual_turnover !== undefined ? annual_turnover : profile?.annual_turnover
+      ),
       annual_turnover: annual_turnover !== undefined ? Number(annual_turnover) : undefined,
       existing_loan: existing_loan !== undefined ? existing_loan : undefined,
       required_investment_amount: required_investment_amount !== undefined ? Number(required_investment_amount) : undefined,
