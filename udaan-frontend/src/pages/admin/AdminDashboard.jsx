@@ -120,28 +120,28 @@ export const AdminDashboard = () => {
         <KpiCard
           icon={FileText}
           label="Total Submissions"
-          value={od.applications_submitted_in_range || 15}
+          value={od.applications_submitted_in_range ?? 0}
           subtext="Last 30 days statewide"
           iconBg="bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 border-blue-100 dark:border-blue-900/50"
         />
         <KpiCard
           icon={TrendingUp}
           label="Active Workload"
-          value={od.pending_workload || 4}
+          value={od.pending_workload ?? 0}
           subtext="Files in departmental scrutiny"
           iconBg="bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 border-amber-100 dark:border-amber-900/50"
         />
         <KpiCard
           icon={Layers}
           label="Top Bottleneck Score"
-          value={topBottleneck?.bottleneck_score || '85'}
-          subtext={topBottleneck?.department || 'Urban Administration & Municipal Corporation'}
+          value={topBottleneck?.bottleneck_score ?? 'N/A'}
+          subtext={topBottleneck?.department ?? 'No Bottlenecks'}
           iconBg="bg-red-50 dark:bg-red-950/40 text-red-600 dark:text-red-400 border-red-100 dark:border-red-900/50"
         />
         <KpiCard
           icon={ClipboardCheck}
           label="Active Departments"
-          value={deptsData.length || 3}
+          value={deptsData.length ?? 0}
           subtext="Single-window integrated"
           iconBg="bg-teal-50 dark:bg-teal-950/40 text-teal-600 dark:text-teal-400 border-teal-100 dark:border-teal-900/50"
         />

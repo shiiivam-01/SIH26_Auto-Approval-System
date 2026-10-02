@@ -112,28 +112,28 @@ export const OfficerDashboard = () => {
         <KpiCard
           icon={FileText}
           label="Pending Scrutiny"
-          value={od.pending_workload || 2}
+          value={od.pending_workload ?? 0}
           subtext="Files awaiting officer action"
           iconBg="bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 border-blue-100 dark:border-blue-900/50"
         />
         <KpiCard
           icon={TrendingUp}
           label="Today's Clearances"
-          value={od.decided_in_range || 1}
+          value={od.decided_in_range ?? 0}
           subtext="Approved and dispatched"
           iconBg="bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 border-emerald-100 dark:border-emerald-900/50"
         />
         <KpiCard
           icon={AlertTriangle}
           label="SLA Breached"
-          value={slaState.breached || 0}
+          value={slaState.breached ?? 0}
           subtext="Requires immediate escalation"
           iconBg="bg-red-50 dark:bg-red-950/40 text-red-600 dark:text-red-400 border-red-100 dark:border-red-900/50"
         />
         <KpiCard
           icon={CheckCircle2}
           label="Department SLA Rate"
-          value={sd.sla_compliance_rate ? `${sd.sla_compliance_rate}%` : '100%'}
+          value={sd.sla_compliance_rate !== undefined ? `${sd.sla_compliance_rate}%` : 'N/A'}
           subtext="Files cleared within timeline"
           iconBg="bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 border-amber-100 dark:border-amber-900/50"
         />
