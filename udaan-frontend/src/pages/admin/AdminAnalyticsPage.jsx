@@ -55,13 +55,7 @@ export const AdminAnalyticsPage = () => {
   const firstError = [overview, sla, depts, inspections, grievances, trends].find((q) => q.isError && q.error?.response?.status === 400);
   const query = { overview, sla, depts, inspections, grievances, trends };
 
-  const allowedDepts = [
-    'Food Safety and Standards Authority of India (FSSAI)',
-    'State FDA & Central Drugs Standard Control Organisation (CDSCO)',
-    'Urban Administration & Municipal Corporation'
-  ];
   const allDeptsList = (depts.data?.data?.departments || [])
-    .filter((d) => allowedDepts.includes(d.department))
     .map((d) => ({ value: d.department, label: d.department }));
 
   const departmentOptions = department
