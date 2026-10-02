@@ -3,8 +3,11 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import {
   FileText, TrendingUp, Layers, ClipboardCheck,
-  ArrowRight, Activity, Zap
+  ArrowRight, Activity, Zap, PieChart as PieChartIcon, BarChart2
 } from 'lucide-react';
+import {
+  PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, Legend, ResponsiveContainer
+} from 'recharts';
 import { getOverviewAnalytics, getDepartmentAnalytics, runSlaCheck } from '../../api/analyticsApi';
 import { Card, CardBody, CardHeader, SkeletonCard, EmptyState, Button } from '../../components/common/ui';
 
@@ -54,16 +57,22 @@ export const AdminDashboard = () => {
 
   const od = overview.data?.data || {};
   let deptsData = depts.data?.data?.departments || [];
-  
-  // Prototype requirement: only show specific departments to admin
-  const allowedDepts = [
-    'Food Safety and Standards Authority of India (FSSAI)',
-    'State FDA & Central Drugs Standard Control Organisation (CDSCO)',
-    'Urban Administration & Municipal Corporation'
-  ];
-  deptsData = deptsData.filter(d => allowedDepts.includes(d.department));
-
   const topBottleneck = deptsData[0] || null;
+
+  // Chart Data preparation
+  const appStatusData = [
+    { name: 'Approved', value: od.application_statuses?.approved || 0, color: '#10b981' },
+    { name: 'Pending Review', value: od.application_statuses?.pending_review || 0, color: '#f59e0b' },
+    { name: 'Pending Inspection', value: od.application_statuses?.pending_inspection || 0, color: '#3b82f6' },
+    { name: 'Rejected', value: od.application_statuses?.rejected || 0, color: '#ef4444' },
+    { name: 'Returned', value: od.application_statuses?.returned || 0, color: '#8b5cf6' },
+  ].filter(d => d.value > 0);
+
+  const deptChartData = deptsData.map(d => ({
+    name: d.department.split(' ').slice(0, 3).join(' ') + '...', // Shorten names for x-axis
+    Pending: d.pending_applications || 0,
+    Breached: d.breached_pending_applications || 0,
+  }));
 
   return (
     <div className="space-y-6 animate-slide-up">
@@ -136,6 +145,66 @@ export const AdminDashboard = () => {
           subtext="Single-window integrated"
           iconBg="bg-teal-50 dark:bg-teal-950/40 text-teal-600 dark:text-teal-400 border-teal-100 dark:border-teal-900/50"
         />
+      </div>
+
+      {/* Analytics Charts */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <Card>
+          <CardHeader 
+            title="Statewide Status Distribution" 
+            subtitle="Breakdown of applications across all departments"
+            icon={PieChartIcon}
+          />
+          <CardBody>
+            <div className="h-72">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={appStatusData}
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={60}
+                    outerRadius={90}
+                    paddingAngle={2}
+                    dataKey="value"
+                  >
+                    {appStatusData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.color} />
+                    ))}
+                  </Pie>
+                  <RechartsTooltip />
+                  <Legend verticalAlign="bottom" height={36} />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+          </CardBody>
+        </Card>
+
+        <Card>
+          <CardHeader 
+            title="Department Bottlenecks" 
+            subtitle="Pending and breached applications per department"
+            icon={BarChart2}
+          />
+          <CardBody>
+            <div className="h-72">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart
+                  data={deptChartData}
+                  margin={{ top: 20, right: 30, left: 0, bottom: 5 }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
+                  <XAxis dataKey="name" tick={{fontSize: 10}} interval={0} angle={-15} textAnchor="end" />
+                  <YAxis tick={{fontSize: 12}} />
+                  <RechartsTooltip cursor={{fill: 'transparent'}} />
+                  <Legend verticalAlign="top" height={36} />
+                  <Bar dataKey="Pending" fill="#3b82f6" radius={[4, 4, 0, 0]} maxBarSize={40} />
+                  <Bar dataKey="Breached" fill="#ef4444" radius={[4, 4, 0, 0]} maxBarSize={40} />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </CardBody>
+        </Card>
       </div>
 
       {/* Cross-Department Bottleneck & SLA Scorecard */}
